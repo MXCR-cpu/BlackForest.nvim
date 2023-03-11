@@ -1,0 +1,7 @@
+-- require("neuron").setup({
+-- 	virtual_titles = true,
+-- 	mappings = true,
+-- 	run = nil,
+-- 	neuron_dir = "/Users/iMac/Documents/Github/Class-ObiVault/Current",
+-- 	leader = ".",
+-- })

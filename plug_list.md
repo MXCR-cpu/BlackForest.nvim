@@ -1,0 +1,52 @@
+# Plugins
+	- nvim-lspconfig
+	- sc-scratchpad
+	- neovim-ayu
+	- cmp-vsnip
+	- nvim-colorizer
+	- trouble
+	- indent-blankline
+	- nerdtree
+	- undotree
+	- Nvim-R
+	- tokyonight
+	- vim-commentry
+	- LuaSnip
+	- vim-startuptime
+	- neoformat
+	- beacon
+	- surround
+	- firenvim
+	- telescope-ui-select
+	- vim-surround
+	- nui
+	- vim-sexp
+	- scnvim
+	- cmp
+	- goyo
+	- vim-sexp-mappings-for-regular-people
+	- fzf
+	- vim-repeat
+	- nvim-align
+	- cmp-buffer
+	- kmp-nvim-lsp
+	- neuron
+	- vim-fugitive
+	- nvim-comment
+
+# Package.path
+	- ~/.config/nvim
+	- /etc/xdg/nvim
+	- ~/.local/share/nvim/site
+	- /usr/local/share/nvim/sit:
+	- /usr/share/nvim/site
+	- /usr/local/Cellar/neovim/0.7.2_1/share/nvim/runtime
+	- /usr/local/Cellar/neovim/0.7.2_1/lib/nvim
+	- /usr/share/nvim/site/after
+	- /usr/local/share/nvim/site/after
+	- ~/.local/share/nvim/site/after/etc/xdg/nvim/after
+	- ~/.config/nvim/after
+
+# Packer Site
+	- /Users/iMac/.local/share/nvim/site/pack/packer/start/
+
