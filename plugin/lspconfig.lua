@@ -37,33 +37,32 @@ capabilities.textDocument.completion.completionItem.snippetSupport = true
 local servers = {
 	pyright = {},
 	tsserver = {},
-	lua_ls = {
-		settings = {
-			Lua = {
-				runtime = {
-					version = "LuaJIT",
-				},
-				diagnostics = {
-					globals = { "vim" },
-				},
-				workspace = {
-					library = vim.api.nvim_get_runtime_file("", true),
-					checkThirdParty = false,
-				},
-				telemetry = {
-					enable = false,
-				},
-			},
+	lua_ls = { settings = { Lua = {
+		runtime = {
+			version = "LuaJIT",
 		},
-	},
+		diagnostics = {
+			globals = { "vim" },
+		},
+		workspace = {
+			library = vim.api.nvim_get_runtime_file("", true),
+			checkThirdParty = false,
+		},
+		telemetry = {
+			enable = false,
+		},
+	}, }, },
 	rust_analyzer = {
 		settings = { ["rust-analyzer"] = {} },
 	},
-	texlab = { build = { args = {"-interaction nonstopmode"}, executable = "lualatex" } },
+	texlab = { build = { args = { "-interaction nonstopmode" }, executable = "lualatex" } },
 	racket_langserver = {},
 	bashls = {},
 	hls = {},
-	jsonls = { capabilities = capabilities }
+	jsonls = { capabilities = capabilities },
+	cssls = { capabilities = capabilities },
+	lemminx = {},
+	taplo = {},
 }
 
 for k, v in pairs(servers) do

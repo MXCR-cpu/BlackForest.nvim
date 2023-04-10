@@ -19,10 +19,11 @@ cmp.setup({
 		["<C-'>"] = cmp.mapping.confirm({ select = true }),
 	}),
 	sources = cmp.config.sources({
-		{ name = "nvim_lsp" },
-		{ name = 'luasnip' },
-	}, {
-		{ name = "buffer" },
+			{ name = "nvim_lsp" },
+			{ name = 'luasnip', option = { show_autosnippets = true } },
+		},
+		{
+			{ name = "buffer" },
 	}),
 })
 

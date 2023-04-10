@@ -4,6 +4,7 @@
 
 -- Color table for highlights
 -- stylua: ignore
+
 local colors = {
 	bg        = '#000000',
 	fg        = '#bbc2cf',
@@ -40,14 +41,10 @@ local conditions = {
 -- Config
 local config = {
 	options = {
-		-- Disable sections and component separators
 		icons_enabled = true,
 		component_separators = "",
 		section_separators = "",
 		theme = {
-			-- We are going to use lualine_c an lualine_x as left and
-			-- right section. Both are highlighted by c theme .  So we
-			-- are just setting default looks o statusline
 			normal = { c = { fg = colors.fg, bg = colors.bg } },
 			inactive = { c = { fg = colors.fg, bg = colors.bg } },
 		},
@@ -73,30 +70,6 @@ local config = {
 	},
 }
 
-local style = "dark_forest"
-local style_options = {
-	dark_forest = {
-		{ fg = colors.grey, gui = "italic" },
-		{ fg = colors.white, gui = "bold" },
-		{ fg = colors.lightgrey, gui = "italic" },
-		{ fg = colors.lightgrey, gui = "italic" },
-		{ fg = colors.grey, gui = "bold" },
-		{ fg = colors.grey, gui = "bold" },
-		{ fg = colors.grey, gui = "bold" },
-		{ fg = colors.grey, gui = "bold" },
-	},
-	default = {
-		{ fg = colors.blue, gui = "italic" },
-		{ fg = colors.green, gui = "bold" },
-		{ fg = colors.yellow, gui = "italic" },
-		{ fg = colors.orange, gui = "italic" },
-		{ fg = colors.red, gui = "bold" },
-		{ fg = colors.orange, gui = "bold" },
-		{ fg = colors.yellow, gui = "bold" },
-		{ fg = colors.green, gui = "bold" },
-	}
-}
-
 -- Functions --
 -- Inserts a component in lualine_c at left section
 local function ins_left(component)
@@ -108,103 +81,38 @@ local function ins_right(component)
 	table.insert(config.sections.lualine_x, component)
 end
 
+local climbing_color = 0
+
 local function color_mode_change()
-	local color_mode_options = {
-		dark_forest = {
-			fg = {
-				n = colors.white,
-				i = colors.grey,
-				v = colors.lightgrey,
-				V = colors.lightgrey,
-				c = colors.grey,
-				no = colors.white,
-				s = colors.grey,
-				S = colors.grey,
-				[""] = colors.lightgrey,
-				ic = colors.white,
-				R = colors.grey,
-				Rv = colors.grey,
-				cv = colors.lightgrey,
-				ce = colors.grey,
-				r = colors.white,
-				rm = colors.grey,
-				["r?"] = colors.grey,
-				["!"] = colors.lightgrey,
-				t = colors.white,
-			},
-			bg = {}
-		},
-		default = {
-			fg = {
-				n = colors.red,
-				i = colors.green,
-				v = colors.blue,
-				V = colors.blue,
-				c = colors.magenta,
-				no = colors.red,
-				s = colors.orange,
-				S = colors.orange,
-				[""] = colors.orange,
-				ic = colors.yellow,
-				R = colors.violet,
-				Rv = colors.violet,
-				cv = colors.red,
-				ce = colors.red,
-				r = colors.cyan,
-				rm = colors.cyan,
-				["r?"] = colors.cyan,
-				["!"] = colors.red,
-				t = colors.red,
-			},
-			bg = {}
-		}
-	}
+	climbing_color = (climbing_color + 1) % 48
 	return {
-		fg = color_mode_options[style]['fg'][vim.fn.mode()],
-		bg = color_mode_options[style]['bg'][vim.fn.mode()] or colors.bg
+		fg = vim.g.colors_shades[29 - math.abs(climbing_color - 24)],
 	}
 end
 
 ins_left({
 	function()
-		return "██"
+		return "████ " .. string.upper(vim.fn.mode()) .. " ████"
 	end,
 	color = color_mode_change,
-	padding = { left = 0, right = 0 },
-})
-
-ins_left({
-	-- mode component
-	function()
-		return string.upper(vim.fn.mode())
-	end,
-	color = color_mode_change,
-})
-
-ins_left({
-	function()
-		return "██"
-	end,
-	color = color_mode_change,
-	padding = { left = 0, right = 1 },
-})
-
-ins_left({
-	-- filesize component
-	"filesize",
-	cond = conditions.buffer_not_empty,
-	color = style_options[style][1],
 })
 
 ins_left({
 	"filename",
 	cond = conditions.buffer_not_empty,
-	color = style_options[style][2],
+	color = { fg = vim.g.colors_shades[28] },
 })
 
-ins_left({ "location", color = style_options[style][3] })
+ins_left({ "location", color = { fg = vim.g.colors_shades[24] } })
 
-ins_left({ "progress", color = style_options[style][4] })
+ins_left({ "progress", color = { fg = vim.g.colors_shades[20] } })
+
+ins_left({
+	-- filesize component
+	"filesize",
+	cond = conditions.buffer_not_empty,
+	color = { fg = vim.g.colors_shades[16] },
+})
 
 ins_left({
 	"diagnostics",
@@ -217,8 +125,6 @@ ins_left({
 	},
 })
 
--- Insert mid section. You can make any number of sections in neovim :)
--- for lualine it's any number greater then 2
 ins_left({
 	function()
 		return "%="
@@ -242,7 +148,7 @@ ins_left({
 		return msg
 	end,
 	icon = " LSP:",
-	color = style_options[style][5],
+	color = color_mode_change,
 })
 
 -- Add components to right sections
@@ -250,20 +156,20 @@ ins_right({
 	"o:encoding", -- option component same as &encoding in viml
 	fmt = string.upper, -- I'm not sure why it's upper case either ;)
 	cond = conditions.hide_in_width,
-	color = style_options[style][6],
+	color = { fg = vim.g.colors_shades[16] },
 })
 
 ins_right({
 	"fileformat",
 	fmt = string.upper,
 	icons_enabled = false, -- I think icons are cool but Eviline doesn't have them. sigh
-	color = style_options[style][7],
+	color = { fg = vim.g.colors_shades[20] },
 })
 
 ins_right({
 	"branch",
 	icon = "",
-	color = style_options[style][8],
+	color = { fg = vim.g.colors_shades[24] },
 })
 
 ins_right({
@@ -271,35 +177,19 @@ ins_right({
 	-- Is it me or the symbol for modified us really weird
 	symbols = { added = " ", modified = "柳 ", removed = " " },
 	diff_color = {
-		added = { fg = colors.green },
-		modified = { fg = colors.orange },
-		removed = { fg = colors.red },
+		added = { fg = vim.g.colors_shades[26] },
+		modified = { fg = vim.g.colors_shades[27] },
+		removed = { fg = vim.g.colors_shades[28] },
 	},
 	cond = conditions.hide_in_width,
 })
 
 ins_right({
 	function()
-		return "██"
+		return "████  ████"
 	end,
 	color = color_mode_change,
-	padding = { left = 0, right = 0 },
-})
-
-ins_right({
-	function()
-		return ""
-	end,
-	color = color_mode_change,
-})
-
-ins_right({
-	function()
-		return "██"
-	end,
-	color = color_mode_change,
-	padding = { left = 0, right = 0 },
 })
 
 require("lualine").setup(config)
-
+-- 29 shades

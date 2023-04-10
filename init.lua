@@ -17,18 +17,51 @@ opt.breakindent = true
 opt.breakindentopt = { shift = 2, min = 40 }
 opt.showbreak = ">>> "
 opt.spelllang = "en_us"
+opt.guicursor = "n-v-c-sm-i-ci-ve-r-cr-o:block"
 o.mouse = "a"
 
+vim.g.colors_shades = {
+	"#000000",
+	"#050505",
+	"#0f0f0f",
+	"#191919",
+	"#232323",
+	"#2d2d2d",
+	"#363636",
+	"#404040",
+	"#404040",
+	"#4a4a4a",
+	"#545454",
+	"#5e5e5e",
+	"#676767",
+	"#717171",
+	"#7b7b7b",
+	"#858585",
+	"#8f8f8f",
+	"#989898",
+	"#a2a2a2",
+	"#acacac",
+	"#b6b6b6",
+	"#c0c0c0",
+	"#c9c9c9",
+	"#d3d3d3",
+	"#dddddd",
+	"#e7e7e7",
+	"#f1f1f1",
+	"#fbfbfb",
+	"#ffffff",
+}
+
 local mappings = {
-	{"n", "j", "gj"},
-	{"n", "k", "gk"},
-	{"v", "j", "gj"},
-	{"v", "k", "gk"},
-	{"n", "H", "5h"},
-	{"n", "J", "5gj"},
-	{"n", "K", "5gk"},
-	{"n", "L", "5l"},
-	{"t", "<Shift><Backspace>", ""},
+	{ "n", "j", "gj" },
+	{ "n", "k", "gk" },
+	{ "v", "j", "gj" },
+	{ "v", "k", "gk" },
+	{ "n", "H", "5h" },
+	{ "n", "J", "5gj" },
+	{ "n", "K", "5gk" },
+	{ "n", "L", "5l" },
+	{ "t", "<Shift><Backspace>", "" },
 }
 
 for _, mapping in ipairs(mappings) do
@@ -36,10 +69,6 @@ for _, mapping in ipairs(mappings) do
 end
 
 vim.cmd([[set clipboard+=unnamedplus]])
-
--- <C-s><char> inserts both pairs in insert mode
--- <C-s><char><space> inserts both pairs in insert mode with surrounding whitespace
--- <C-s><char><C-s> insert both pairs on newlines insert mode
 
 local augroup = api.nvim_create_augroup("Terminal_cmds", { clear = true })
 local zsh_file = "zsh"
@@ -51,12 +80,8 @@ api.nvim_create_autocmd("TermResponse", {
 		local lines = 0
 		local directory_search = nil
 		while not directory_search do
-			directory_search = api.nvim_buf_get_lines(
-				api.nvim_get_current_buf(),
-				-2 - lines,
-				-1 - lines,
-				true
-			)[1]:gmatch("~[/[\\ _.%-_%w]+]*")()
+			directory_search = api.nvim_buf_get_lines(api.nvim_get_current_buf(), -2 - lines, -1 - lines, true)[1]
+				:gmatch("~[/[\\ _.%-_%w]+]*")()
 			lines = lines + 1
 		end
 		if directory_search then
@@ -68,45 +93,49 @@ api.nvim_create_autocmd("TermResponse", {
 	end,
 })
 api.nvim_create_autocmd("BufWritePost", {
-		pattern = "*.tex",
-		desc = "Update Compiled PDF",
-		callback = function()
-			local file_name = vim.fn.expand("%:p"):gsub(" ", "\\ ")
-			local option = fn.input("Compile: ")
-			if option:find("y") then
-				api.nvim_command("!lualatex " .. file_name)
-				api.nvim_command("!rm *.log")
-				api.nvim_command("!rm *.aux")
-				api.nvim_command("!rm *.out")
-			end
+	pattern = "*.tex",
+	desc = "Update Compiled PDF",
+	callback = function()
+		local file_name = vim.fn.expand("%:p"):gsub(" ", "\\ ")
+		local option = fn.input("Compile: ")
+		if option:find("y") then
+			api.nvim_command("!lualatex " .. file_name)
+			api.nvim_command("!rm *.log")
+			api.nvim_command("!rm *.aux")
+			api.nvim_command("!rm *.out")
 		end
+	end,
 })
 
-dofile[[/Users/iMac/.config/nvim/plugin_packer.lua]]
-dofile[[/Users/iMac/.config/nvim/plugin/luasnip.lua]]
+g.nvim_directory = "/Users/iMac/.config/BlackForest"
+
+-- dofile([[/Users/iMac/.config/NvimJumpstart/plugin_packer.lua]])
+-- dofile([[/Users/iMac/.config/NvimJumpstart/plugin/luasnip.lua]])
+dofile(g.nvim_directory .. [[/plugin_packer.lua]])
+dofile(g.nvim_directory .. [[/plugin/luasnip.lua]])
 
 -- plugin_packer.lua
 api.nvim_create_user_command("Sc", function()
-	vim.cmd[[let @/ = ""]]
+	vim.cmd([[let @/ = ""]])
 end, {})
 api.nvim_create_user_command("Go", function()
-	if fn.expand('%'):sub(1, 4):match("term") == nil then
+	if fn.expand("%"):sub(1, 4):match("term") == nil then
 		print("<<!>> Nvim Go Function: Current buffer is not a terminal buffer")
 		return
 	end
 	local line = api.nvim_get_current_line()
-	local dir_name = line:match"~[^]*"
-	dir_name = dir_name:sub(1, #dir_name-1)
+	local dir_name = line:match("~[^]*")
+	dir_name = dir_name:sub(1, #dir_name - 1)
 	vim.cmd([[cd ]] .. dir_name)
-	vim.cmd[[wincmd l]]
-	vim.cmd[[Telescope find_files]]
+	vim.cmd([[wincmd l]])
+	vim.cmd([[Telescope find_files]])
 end, {})
 api.nvim_create_user_command("Start", function()
-	vim.cmd[[e ~/.config/nvim/init.lua]]
-	vim.cmd[[vsplit]]
-	vim.cmd[[wincmd h]]
-	vim.cmd[[terminal]]
-	vim.cmd[[set nonumber]]
+	vim.cmd([[e ~/.config/nvim/init.lua]])
+	vim.cmd([[split]])
+	vim.cmd([[wincmd k]])
+	vim.cmd([[terminal]])
+	vim.cmd([[set nonumber]])
 end, {})
 
 -- Packer
@@ -122,25 +151,20 @@ if fn.empty(fn.glob(install_path)) > 0 then
 	})
 end
 
--- There appears to be an error with lualine.lua in which an error
--- prevents the colorscheme from properly loading.
--- vim.cmd[[colorscheme kanagawa]]
-vim.cmd[[colorscheme 256_noir]]
-
-api.nvim_set_hl(0, "WinSeparator", {
-	ctermfg="White",
-	ctermbg="White"
-})
+-- vim.cmd[[colorscheme komau]]
+vim.cmd[[colorscheme Mies]]
+vim.cmd[[set background=dark]]
+dofile(g.nvim_directory .. [[/colors_update.lua]])
 
 local nvim_tree_icon = {
 	"NvimTreeFolderIcon",
-	"NvimTreeFileIcon"
+	"NvimTreeFileIcon",
 }
 
 for _, icon_name in ipairs(nvim_tree_icon) do
 	api.nvim_set_hl(0, icon_name, {
-		ctermfg="NONE",
-		ctermbg="NONE"
+		ctermfg = "NONE",
+		ctermbg = "NONE",
 	})
 end
 
@@ -148,4 +172,3 @@ g.vim_markdown_toc_autofit = 1
 g.vim_markdown_math = 1
 g.vim_markdown_frontmatter = 1
 g.vim_markdown_toml_frontmatter = 1
-
