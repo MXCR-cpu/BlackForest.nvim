@@ -108,9 +108,6 @@ api.nvim_create_autocmd("BufWritePost", {
 })
 
 g.nvim_directory = "/Users/iMac/.config/BlackForest"
-
--- dofile([[/Users/iMac/.config/NvimJumpstart/plugin_packer.lua]])
--- dofile([[/Users/iMac/.config/NvimJumpstart/plugin/luasnip.lua]])
 dofile(g.nvim_directory .. [[/plugin_packer.lua]])
 dofile(g.nvim_directory .. [[/plugin/luasnip.lua]])
 
@@ -151,7 +148,6 @@ if fn.empty(fn.glob(install_path)) > 0 then
 	})
 end
 
--- vim.cmd[[colorscheme komau]]
 vim.cmd[[colorscheme Mies]]
 vim.cmd[[set background=dark]]
 dofile(g.nvim_directory .. [[/colors_update.lua]])
