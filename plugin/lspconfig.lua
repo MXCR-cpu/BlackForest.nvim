@@ -1,3 +1,4 @@
+local util = require("lspconfig.util")
 local on_attach = function(_, bufnr)
 	vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
 end
@@ -56,13 +57,15 @@ local servers = {
 		settings = { ["rust-analyzer"] = {} },
 	},
 	texlab = { build = { args = { "-interaction nonstopmode" }, executable = "lualatex" } },
-	racket_langserver = {},
 	bashls = {},
 	hls = {},
 	jsonls = { capabilities = capabilities },
 	cssls = { capabilities = capabilities },
 	lemminx = {},
 	taplo = {},
+	marksman = {},
+	clangd = {},
+	racket_langserver = {},
 }
 
 for k, v in pairs(servers) do

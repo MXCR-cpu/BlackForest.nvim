@@ -68,7 +68,7 @@ for _, mapping in ipairs(mappings) do
 	api.nvim_set_keymap(mapping[1], mapping[2], mapping[3], { noremap = true })
 end
 
-vim.cmd([[set clipboard+=unnamedplus]])
+vim.cmd[[set clipboard+=unnamedplus]]
 
 local augroup = api.nvim_create_augroup("Terminal_cmds", { clear = true })
 local zsh_file = "zsh"
@@ -113,7 +113,7 @@ dofile(g.nvim_directory .. [[/plugin/luasnip.lua]])
 
 -- plugin_packer.lua
 api.nvim_create_user_command("Sc", function()
-	vim.cmd([[let @/ = ""]])
+	vim.cmd[[let @/ = ""]]
 end, {})
 api.nvim_create_user_command("Go", function()
 	if fn.expand("%"):sub(1, 4):match("term") == nil then
@@ -150,7 +150,7 @@ end
 
 vim.cmd[[colorscheme Mies]]
 vim.cmd[[set background=dark]]
-dofile(g.nvim_directory .. [[/colors_update.lua]])
+dofile(g.nvim_directory .. "/colors_update.lua")
 
 local nvim_tree_icon = {
 	"NvimTreeFolderIcon",

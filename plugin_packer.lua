@@ -24,6 +24,10 @@ local plugin_list = {
 		mod = require("plugin.nvim-tree"),
 	},
 	{ "folke/which-key.nvim", mod = require("plugin.which-key") },
+	{ "ziontee113/color-picker.nvim",
+		config = function()
+			require("color-picker")
+		end },
 	{
 		"kylechui/nvim-surround",
 		tag = "*",
@@ -33,10 +37,14 @@ local plugin_list = {
 	},
 	{ "tpope/vim-commentary" },
 	{ "tpope/vim-fugitive" },
+	{ "sQVe/sort.nvim",
+		config = function()
+			require("sort").setup {}
+		end },
 	-- Neovim Plugins Development
 	{ "nvim-lua/popup.nvim" },
 	{ "nvim-lua/plenary.nvim" },
-	{ "rafcamlet/nvim-luapad" },
+	-- { "rafcamlet/nvim-luapad" },
 	---
 	{ "ThePrimeagen/harpoon" },
 	{
@@ -58,6 +66,7 @@ local plugin_list = {
 	{ "hrsh7th/cmp-cmdline" },
 	{ "neovim/nvim-lspconfig", mod = require("plugin.lspconfig") },
 	{ "nvim-treesitter/nvim-treesitter", mod = require("plugin.treesitter") },
+	{ "stevearc/aerial.nvim", config = function() require("aerial").setup() end },
 	{ "mbbill/undotree" },
 	{ "dstein64/vim-startuptime" },
 	{ "lukas-reineke/indent-blankline.nvim", mod = require("plugin.indent-blankline") },

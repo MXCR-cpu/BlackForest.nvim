@@ -1,9 +1,10 @@
 local number_column_colors = { fg = vim.g.colors_shades[10] }
+local sign_column_colors = { fg = vim.g.colors_shades[15] }
 local highlight_text = { fg = vim.g.colors_shades[1], bg = vim.g.colors_shades[29] }
 local color_groups = {
 	-- Editor --
 	{ "Normal", {} },
-	{ "NonText", { fg = vim.g.colors_shades[1] } },
+	{ "NonText", number_column_colors },
 	{ "LineNr", number_column_colors },
 	{ "LineNrAbove", number_column_colors },
 	{ "LineNrBelow", number_column_colors },
@@ -29,6 +30,12 @@ local color_groups = {
 	{ "Pmenu", { fg = vim.g.colors_shades[28], bg = vim.g.colors_shades[1] } },
 	{ "WinSeparator", {} },
 	{ "VertSplit", {} },
+	{ "FoldColumn", sign_column_colors },
+	{ "SignColumn", sign_column_colors },
+	{ "NvimTreeSignColumn", sign_column_colors },
+	{ "CursorColumn", sign_column_colors },
+	{ "NvimTreeCursorColumn", sign_column_colors },
+	{ "ColorColumn", { fg = "#000000", bg = "#ffffff" } },
 	{ "TODO", { fg = vim.g.colors_shades[1], bg = vim.g.colors_shades[20] } },
 	-- Telescope --
 	{ "TelescopeSelection", { fg = vim.g.colors_shades[29], bg = vim.g.colors_shades[5] } },
@@ -83,6 +90,6 @@ end
 
 for key, value in ipairs(highlight_color_groups) do
 	for _, inner_value in ipairs(value) do
-		vim.api.nvim_set_hl(0, inner_value, { fg = vim.g.colors_shades[#vim.g.colors_shades - 5 - (2 * key)]})
+		vim.api.nvim_set_hl(0, inner_value, { fg = vim.g.colors_shades[#vim.g.colors_shades - 5 - (2 * key)] })
 	end
 end
