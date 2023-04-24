@@ -1,12 +1,10 @@
 return {
-	Ls.snippet(
-		{ trig = "hi" },
+	S(
+		"hi",
 		{ T("Hello, world!") }
 	),
-
-	Ls.snippet(
-		{ trig = "foo" },
+	S(
+		"foo",
 		{ T("Another snippet.") }
 	),
 }
-

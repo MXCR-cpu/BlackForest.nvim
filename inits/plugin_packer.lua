@@ -1,5 +1,5 @@
 vim.cmd [[packadd packer.nvim]]
-package.path = vim.g.nvim_directory .. "/?.lua;" .. package.path
+package.path = vim.g.nvim_directory .. "/inits/?.lua;" .. package.path
 
 local plugin_list = {
 	{ "wbthomason/packer.nvim" },

@@ -6,7 +6,7 @@ return {
 					<>
 				\end{equation*}
 			]],
-			{ i(1) },
+			{ I(1) },
 			{ delimiters = "<>" }
 	)),
 	S({ trig = ";ls", dscr = "List"},
@@ -16,7 +16,7 @@ return {
 					\item[<>)]<>
 				\end{itemize}
 			]],
-			{ i(1), i(2) },
+			{ I(1), I(2) },
 			{ delimiters = "<>" }
 	)),
 	S({ trig = ";al", dscr = "Align Equations"},
@@ -26,7 +26,7 @@ return {
 					<>
 				\end{align*}
 			]],
-			{ i(1) },
+			{ I(1) },
 			{ delimiters = "<>" }
 	)),
 	S({ trig = ";ta", dscr = "Table"},
@@ -38,7 +38,7 @@ return {
 				<>
 				\end{tabular}
 			]],
-			{ i(1), i(2), i(3), i(4) },
+			{ I(1), I(2), I(3), I(4) },
 			{ delimiters = "<>" }
 	)),
 	S({ trig = ";ma", dscr = "Nicematrix"},
@@ -48,7 +48,7 @@ return {
 					<>
 				\end{bNiceMatrix}
 			]],
-			{ i(1) },
+			{ I(1) },
 			{ delimiters = "<>" }
 	)),
 	S({ trig = ";cr", dscr = "Logic Circuit Diagram"},
@@ -74,7 +74,7 @@ return {
 				<>
 				\end{tikzpicture}
 			]],
-			{ i(1) },
+			{ I(1) },
 			{ delimiters = "<>" }
 	)),
 	S({ trig = ";g", dscr = "Graph"},
@@ -90,7 +90,7 @@ return {
 					};
 				\end{tikzpicture}}
 			]],
-			{ i(1) },
+			{ I(1) },
 			{ delimiters = "<>" }
 	)),
 	S({ trig = ";ggs", dscr = "Simple Graph"},
@@ -104,7 +104,7 @@ return {
 					};
 				\end{tikzpicture}}
 			]],
-			{ i(1) },
+			{ I(1) },
 			{ delimiters = "<>" }
 	)),
 	S({ trig = ";ggm", dscr = "Multigraph"},
@@ -120,7 +120,7 @@ return {
 					};
 				\end{tikzpicture}}
 			]],
-			{ i(1) },
+			{ I(1) },
 			{ delimiters = "<>" }
 	)),
 	S({ trig = ";ggp", dscr = "Pseudograph"},
@@ -137,7 +137,7 @@ return {
 					};
 				\end{tikzpicture}}
 			]],
-			{ i(1) },
+			{ I(1) },
 			{ delimiters = "<>" }
 	)),
 	S({ trig = ";gkn", dscr = "K_n Graph"},
@@ -150,7 +150,7 @@ return {
 					};
 				\end{tikzpicture}}
 			]],
-			{ i(1) },
+			{ I(1) },
 			{ delimiters = "<>" }
 	)),
 	S({ trig = ";gknm", dscr = "K_nm Graph"},
@@ -163,7 +163,7 @@ return {
 					};
 				\end{tikzpicture}}
 			]],
-			{ i(1), i(2), i(3), i(4) },
+			{ I(1), I(2), I(3), I(4) },
 			{ delimiters = "<>" }
 	)),
 	S({ trig = ";gcn", dscr = "C_n Graph"},
@@ -176,7 +176,7 @@ return {
 					};
 				\end{tikzpicture}}
 			]],
-			{ i(1) },
+			{ I(1) },
 			{ delimiters = "<>" }
 	)),
 	S({ trig = ";gwn", dscr = "W_n Graph"},
@@ -189,7 +189,7 @@ return {
 					};
 				\end{tikzpicture}}
 			]],
-			{ i(1) },
+			{ I(1) },
 			{ delimiters = "<>" }
 	)),
 	S({ trig = ";no", dscr = "Node Dot Option"},
@@ -215,7 +215,7 @@ return {
 							<>
 				\end{tikzpicture}
 			]],
-			{ i(1) },
+			{ I(1) },
 			{ delimiters = "<>" }
 	)),
 	S({ trig = ";rg", dscr = "Relation Graph"},
@@ -232,7 +232,7 @@ return {
 				};
 				\end{tikzpicture}
 			]],
-			{ i(1) },
+			{ I(1) },
 			{ delimiters = "\"'" }
 	)),
 	S({ trig = ";crt", dscr = "Crossword Tree"},
@@ -260,7 +260,7 @@ return {
 							<>]
 					\end{forest}}
 			]],
-			{ i(1), i(2), i(3) },
+			{ I(1), I(2), I(3) },
 			{ delimiters = "<>" }
 	)),
 	S({ trig = ";gbt", dscr = "Binary Tree"},
@@ -271,7 +271,7 @@ return {
 					<>
 				};}
 			]],
-			{ i(1) },
+			{ I(1) },
 			{ delimiters = "<>" }
 	)),
 	S({ trig = ";fsmd", dscr = "Finite-State Machine Diagram"},
@@ -286,7 +286,7 @@ return {
 					"'
 				\end{tikzpicture}}
 			]],
-			{ i(1) },
+			{ I(1) },
 			{ delimiters = "\"'" }
 	)),
 	S({ trig = ";fsmt", dscr = "Finite-State Machine Table"},
@@ -305,7 +305,7 @@ return {
 				\hline
 				\end{tabular}}
 			]],
-			{ i(1) },
+			{ I(1) },
 			{ delimiters = "<>" }
 	)),
 	S({ trig = ";sl", dscr = "Loop Style"},

@@ -1,6 +1,9 @@
-local number_column_colors = { fg = vim.g.colors_shades[10] }
-local sign_column_colors = { fg = vim.g.colors_shades[15] }
-local highlight_text = { fg = vim.g.colors_shades[1], bg = vim.g.colors_shades[29] }
+local api = vim.api
+local g = vim.g
+
+local number_column_colors = { fg = g.colors_shades[10] }
+local sign_column_colors = { fg = g.colors_shades[15] }
+local highlight_text = { fg = g.colors_shades[1], bg = g.colors_shades[29] }
 local color_groups = {
 	-- Editor --
 	{ "Normal", {} },
@@ -27,7 +30,7 @@ local color_groups = {
 		underdouble = true,
 		italic = true,
 	} },
-	{ "Pmenu", { fg = vim.g.colors_shades[28], bg = vim.g.colors_shades[1] } },
+	{ "Pmenu", { fg = g.colors_shades[28], bg = g.colors_shades[1] } },
 	{ "WinSeparator", {} },
 	{ "VertSplit", {} },
 	{ "FoldColumn", sign_column_colors },
@@ -36,18 +39,18 @@ local color_groups = {
 	{ "CursorColumn", sign_column_colors },
 	{ "NvimTreeCursorColumn", sign_column_colors },
 	{ "ColorColumn", { fg = "#000000", bg = "#ffffff" } },
-	{ "TODO", { fg = vim.g.colors_shades[1], bg = vim.g.colors_shades[20] } },
+	{ "TODO", { fg = g.colors_shades[1], bg = g.colors_shades[20] } },
 	-- Telescope --
-	{ "TelescopeSelection", { fg = vim.g.colors_shades[29], bg = vim.g.colors_shades[5] } },
+	{ "TelescopeSelection", { fg = g.colors_shades[29], bg = g.colors_shades[5] } },
 	--- NvimTree --
-	{ "NvimTreeIndentMarker", { fg = vim.g.colors_shades[10] } },
-	{ "NvimTreeWindowPicker", { fg = vim.g.colors_shades[5], bg = vim.g.colors_shades[25] } },
+	{ "NvimTreeIndentMarker", { fg = g.colors_shades[10] } },
+	{ "NvimTreeWindowPicker", { fg = g.colors_shades[5], bg = g.colors_shades[25] } },
 	-- WhichKey --
-	{ "WhichKey", { fg = vim.g.colors_shades[29] } },
-	{ "WhichKeyDesc", { fg = vim.g.colors_shades[10] } },
-	{ "WhichKeyGroup", { fg = vim.g.colors_shades[15] } },
-	{ "WhichKeySeparator", { fg = vim.g.colors_shades[10] } },
-	{ "WhichKeyBorder", { fg = vim.g.colors_shades[29] } },
+	{ "WhichKey", { fg = g.colors_shades[29] } },
+	{ "WhichKeyDesc", { fg = g.colors_shades[10] } },
+	{ "WhichKeyGroup", { fg = g.colors_shades[15] } },
+	{ "WhichKeySeparator", { fg = g.colors_shades[10] } },
+	{ "WhichKeyBorder", { fg = g.colors_shades[29] } },
 }
 
 local highlight_color_groups = {
@@ -85,11 +88,23 @@ local highlight_color_groups = {
 	},
 }
 for _, value in ipairs(color_groups) do
-	vim.api.nvim_set_hl(0, value[1], value[2])
+	api.nvim_set_hl(0, value[1], value[2])
 end
 
 for key, value in ipairs(highlight_color_groups) do
 	for _, inner_value in ipairs(value) do
-		vim.api.nvim_set_hl(0, inner_value, { fg = vim.g.colors_shades[#vim.g.colors_shades - 5 - (2 * key)] })
+		api.nvim_set_hl(0, inner_value, { fg = g.colors_shades[#g.colors_shades - 5 - (2 * key)] })
 	end
+end
+
+local nvim_tree_icon = {
+	"NvimTreeFolderIcon",
+	"NvimTreeFileIcon",
+}
+
+for _, icon_name in ipairs(nvim_tree_icon) do
+	api.nvim_set_hl(0, icon_name, {
+		ctermfg = "NONE",
+		ctermbg = "NONE",
+	})
 end

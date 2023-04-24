@@ -66,6 +66,8 @@ local servers = {
 	marksman = {},
 	clangd = {},
 	racket_langserver = {},
+	yamlls = {},
+	zls = {},
 }
 
 for k, v in pairs(servers) do

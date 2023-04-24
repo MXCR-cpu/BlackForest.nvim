@@ -1,13 +1,3 @@
-vim.cmd[[
-imap <silent><expr> <C-l> luasnip#expand_or_jumpable() ? '<Plug>luasnip-expand-or-jump' : '<C-l>' 
-
-imap <silent><expr> <C-l> luasnip#jumpable(1) ? '<Plug>luasnip-jump-next' : '<C-l>'
-smap <silent><expr> <C-l> luasnip#jumpable(1) ? '<Plug>luasnip-jump-next' : '<C-l>'
-
-imap <silent><expr> <C-h> luasnip#jumpable(-1) ? '<Plug>luasnip-jump-prev' : '<C-h>'
-smap <silent><expr> <C-h> luasnip#jumpable(-1) ? '<Plug>luasnip-jump-prev' : '<C-h>'
-]]
-
 local g = vim.g
 Ls = require("luasnip")
 S = Ls.snippet
@@ -20,5 +10,4 @@ Fmt = require("luasnip.extras.fmt").fmt
 Fmta = require("luasnip.extras.fmt").fmta
 Rep = require("luasnip.extras").rep
 
-require("luasnip.loaders.from_lua").load({paths = g.nvim_directory .. "LuaSnip/"})
-
+require("luasnip.loaders.from_lua").load({paths = g.nvim_directory .. "/LuaSnip"})
