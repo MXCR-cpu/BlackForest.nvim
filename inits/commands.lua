@@ -4,7 +4,7 @@ local fn = vim.fn
 
 
 local user_commands = {
-	Sc = { function()
+	ClearHighlight = { function()
 		cmd [[let @/ = ""]]
 	end, {} },
 	CheckPacker = { function()

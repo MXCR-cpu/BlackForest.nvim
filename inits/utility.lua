@@ -7,14 +7,6 @@ local _if = function(bool, val1, val2)
 	return val2
 end
 
-local _repeat = function(character, times)
-	local string = ""
-	for _ = 1, times do
-		string = string .. character
-	end
-	return string
-end
-
 local _repeat_direction = function(direction, segment, spacing, delimiter, gap, guard)
 	if direction:match 'left' and not guard then
 		return segment
@@ -38,6 +30,7 @@ Utility.align = function(direction, gap)
 	local split_lines     = {}
 	local segment_lengths = {}
 	local string_start    = lines[1]:match '^%s*'
+	local space           = ' '
 	for _, line in ipairs(lines) do
 		local single_split_line = {}
 		local inner_index = 1
@@ -51,6 +44,9 @@ Utility.align = function(direction, gap)
 			inner_index = inner_index + 1
 		end
 		split_lines[#split_lines + 1] = single_split_line
+		if line:sub(#line, #line):match(delimiter) then
+			segment_lengths[#segment_lengths + 1] = 0
+		end
 	end
 	local strings = {}
 	for _, single_split_line in ipairs(split_lines) do
@@ -60,10 +56,10 @@ Utility.align = function(direction, gap)
 			    _repeat_direction(
 			            direction,
 			            segment,
-			            _repeat(' ', segment_lengths[key] - #segment),
+			            space:rep(segment_lengths[key] - #segment),
 			            delimiter,
-			            _if(gap, ' ', ''),
-			            single_split_line[key + 1])
+			            _if(gap, space, ''),
+			            segment_lengths[key + 1])
 		end
 		strings[#strings + 1] = new_line
 	end
@@ -71,3 +67,4 @@ Utility.align = function(direction, gap)
 end
 
 return Utility
+-- luq require('plenary.popup').create({...}, { title = "Align Debug", minwidth = 100, minheight = 30})
