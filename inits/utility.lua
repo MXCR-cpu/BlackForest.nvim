@@ -15,16 +15,29 @@ local _repeat = function(character, times)
 	return string
 end
 
+local _repeat_direction = function(direction, segment, spacing, delimiter, gap, guard)
+	if direction:match 'left' and not guard then
+		return segment
+	elseif direction:match 'left' then
+		return segment .. spacing .. gap .. delimiter .. gap
+	elseif direction:match 'right' and not guard then
+		return spacing .. segment
+	end
+	return spacing .. segment .. gap .. delimiter .. gap
+end
+
 Utility = {}
 
-Utility.align = function()
-	local left_position = api.nvim_buf_get_mark(0, "<")
-	local right_position = api.nvim_buf_get_mark(0, ">")
-	local lines = api.nvim_buf_get_lines(0, left_position[1], right_position[1], true)
-	local delimiter = fn.input("Character: ")
-	local split_lines = {}
+-- @params direction "left"|"right"
+-- @params gap       boolean|nil
+Utility.align = function(direction, gap)
+	local left_position   = api.nvim_buf_get_mark(0, "<")
+	local right_position  = api.nvim_buf_get_mark(0, ">")
+	local lines           = api.nvim_buf_get_lines(0, left_position[1] - 1, right_position[1], true)
+	local delimiter       = fn.input("Character: ")
+	local split_lines     = {}
 	local segment_lengths = {}
-	print('a')
+	local string_start    = lines[1]:match '^%s*'
 	for _, line in ipairs(lines) do
 		local single_split_line = {}
 		local inner_index = 1
@@ -32,32 +45,29 @@ Utility.align = function()
 			single_split_line[#single_split_line + 1] = segment:match '^%s*(.-)%s*$'
 			local segment_length = #single_split_line[#single_split_line]
 			segment_lengths[inner_index] = _if(
+				#segment_lengths >= inner_index and segment_length < segment_lengths[inner_index],
 				segment_lengths[inner_index],
-				segment_lengths[inner_index],
-				0)
-			segment_lengths[inner_index] = _if(
-				segment_length > segment_lengths[inner_index],
-				segment_length,
-				segment_lengths[inner_index])
+				segment_length)
 			inner_index = inner_index + 1
 		end
 		split_lines[#split_lines + 1] = single_split_line
 	end
 	local strings = {}
 	for _, single_split_line in ipairs(split_lines) do
-		local new_line = ""
+		local new_line = string_start
 		for key, segment in ipairs(single_split_line) do
 			new_line = new_line ..
-			    segment ..
-			    _if(
-			            single_split_line[key + 1],
-			            _repeat(' ', segment_lengths[key] - #segment) .. ' ' .. delimiter .. ' ', '')
+			    _repeat_direction(
+			            direction,
+			            segment,
+			            _repeat(' ', segment_lengths[key] - #segment),
+			            delimiter,
+			            _if(gap, ' ', ''),
+			            single_split_line[key + 1])
 		end
 		strings[#strings + 1] = new_line
 	end
-	for _, item in ipairs(strings) do
-		print(item)
-	end
+	api.nvim_buf_set_lines(0, left_position[1] - 1, right_position[1], true, strings)
 end
 
 return Utility
