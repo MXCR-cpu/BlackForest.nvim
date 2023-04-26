@@ -68,6 +68,7 @@ local servers = {
 	racket_langserver = {},
 	yamlls = {},
 	zls = {},
+	tailwindcss = {},
 }
 
 for k, v in pairs(servers) do

@@ -1,82 +1,64 @@
 vim.cmd [[packadd packer.nvim]]
-package.path = vim.g.nvim_directory .. "/inits/?.lua;" .. package.path
+package.path = vim.g.nvim_directory .. '/?.lua;' .. package.path
 
 local plugin_list = {
-	{ "wbthomason/packer.nvim" },
-	{ "nvim-telescope/telescope.nvim", tag = "0.1.1", requires = { { "nvim-lua/plenary.nvim" } } },
+	{ 'L3MON4D3/LuaSnip' },
+	{ 'MXCR-cpu/boop.nvim' },
+	{ 'ThePrimeagen/harpoon' },
+	{ 'dstein64/vim-startuptime' },
+	{ 'folke/which-key.nvim', mod = require 'plugin.which-key' },
+	{ 'hrsh7th/cmp-buffer' },
+	{ 'hrsh7th/cmp-cmdline' },
+	{ 'hrsh7th/cmp-nvim-lsp' },
+	{ 'hrsh7th/cmp-path' },
+	{ 'hrsh7th/nvim-cmp', mod = require 'plugin.nvim-cmp' },
+	{ 'jaredgorski/Mies.vim' },
+	{ 'kyazdani42/nvim-web-devicons', mod = require 'plugin.devicons' },
+	{ 'lukas-reineke/indent-blankline.nvim', mod = require('plugin.indent-blankline') },
+	{ 'mbbill/undotree' },
+	{ 'mhartington/formatter.nvim', mod = require 'plugin.formatter' },
+	{ 'neovim/nvim-lspconfig', mod = require 'plugin.lspconfig' },
+	{ 'nvim-lua/plenary.nvim' },
+	{ 'nvim-lua/popup.nvim' },
+	{ 'nvim-telescope/telescope.nvim', tag = '0.1.1', requires = { 'nvim-lua/plenary.nvim' } },
+	{ 'nvim-treesitter/nvim-treesitter', mod = require 'plugin.treesitter' },
+	{ 'sQVe/sort.nvim', mod = require 'plugin.sort' },
+	{ 'saadparwaiz1/cmp_luasnip' },
+	{ 'stevearc/aerial.nvim', mod = require 'plugin.aerial' },
+	{ 'tpope/vim-commentary' },
+	{ 'tpope/vim-fugitive' },
+	{ 'wbthomason/packer.nvim' },
+	{ 'williamboman/mason.nvim', run = ':MasonUpdate', },
+	{ 'windwp/nvim-autopairs', mod = require 'plugin.nvim-autopairs' },
+	{ 'ziontee113/color-picker.nvim', mod = require 'plugin.color-picker' },
 	{
-		"nvim-lualine/lualine.nvim",
+		'nvim-lualine/lualine.nvim',
 		requires = {
-			"kyazdani42/nvim-web-devicons",
+			'kyazdani42/nvim-web-devicons',
 			opt = true,
 		},
-		mod = require("plugin.lualine"),
+		mod = require 'plugin.lualine',
 	},
-	{ "kyazdani42/nvim-web-devicons", mod = require("plugin.devicons") },
-	{ "jaredgorski/Mies.vim" },
-	{ "mhartington/formatter.nvim", mod = require("plugin.formatter") },
 	{
-		"kyazdani42/nvim-tree.lua",
+		'kyazdani42/nvim-tree.lua',
 		requires = {
-			"kyazdani42/nvim-web-devicons",
+			'kyazdani42/nvim-web-devicons',
 		},
-		tag = "nightly",
-		mod = require("plugin.nvim-tree"),
+		tag = 'nightly',
+		mod = require 'plugin.nvim-tree',
 	},
-	{ "folke/which-key.nvim", mod = require("plugin.which-key") },
-	{ "ziontee113/color-picker.nvim",
-		config = function()
-			require("color-picker")
-		end },
 	{
-		"kylechui/nvim-surround",
-		tag = "*",
-		config = function()
-			require("nvim-surround").setup {}
-		end
+		'kylechui/nvim-surround',
+		tag = '*',
+		mod = require 'nvim-surround'
 	},
-	{ "tpope/vim-commentary" },
-	{ "tpope/vim-fugitive" },
-	{ "sQVe/sort.nvim",
-		config = function()
-			require("sort").setup {}
-		end },
-	-- Neovim Plugins Development
-	{ "nvim-lua/popup.nvim" },
-	{ "nvim-lua/plenary.nvim" },
-	-- { "rafcamlet/nvim-luapad" },
-	---
-	{ "ThePrimeagen/harpoon" },
-	{
-		"windwp/nvim-autopairs",
-		config = function()
-			require("nvim-autopairs").setup({})
-		end,
-	},
-	-- Local Plugins
-	{ "MXCR-cpu/boop.nvim" },
-	-- LuaSnip Package
-	{ "L3MON4D3/LuaSnip" },
-	{ "saadparwaiz1/cmp_luasnip" },
-	-- Neovim Lsp
-	{ "hrsh7th/nvim-cmp", mod = require("plugin.nvim-cmp") },
-	{ "hrsh7th/cmp-nvim-lsp" },
-	{ "hrsh7th/cmp-buffer" },
-	{ "hrsh7th/cmp-path" },
-	{ "hrsh7th/cmp-cmdline" },
-	{ "neovim/nvim-lspconfig", mod = require("plugin.lspconfig") },
-	{ "nvim-treesitter/nvim-treesitter", mod = require("plugin.treesitter") },
-	{ "stevearc/aerial.nvim", config = function() require("aerial").setup() end },
-	{ "mbbill/undotree" },
-	{ "dstein64/vim-startuptime" },
-	{ "lukas-reineke/indent-blankline.nvim", mod = require("plugin.indent-blankline") },
 }
 
-return require("packer").startup(function(pack)
+return require('packer').startup(function(pack)
 	for _, v in ipairs(plugin_list) do
 		pack(v)
 	end
 	if Packer_bootstrap then
-		require("packer").sync()
+		require('plugin.packer').sync()
 	end
 end)
