@@ -15,10 +15,10 @@ local plugin_list = {
 	{ 'jaredgorski/Mies.vim'                                                                                                 },
 	{ 'kyazdani42/nvim-web-devicons'            ,mod = require 'plugin.devicons'                                             },
 	{ 'kylechui/nvim-surround'                  ,mod = require 'plugin.nvim-surround'                                        },
-	{ 'lukas-reineke/indent-blankline.nvim'     ,mod = require('plugin.indent-blankline')                                    },
+	{ 'lukas-reineke/indent-blankline.nvim'     ,mod = require 'plugin.indent-blankline'                                     },
 	{ 'mbbill/undotree'                                                                                                      },
 	{ 'mhartington/formatter.nvim'              ,mod = require 'plugin.formatter'                                            },
-	{ 'neovim/nvim-lspconfig'                   ,mod = require 'plugin.lspconfig'                                            },
+	{ 'neovim/nvim-lspconfig'                                                                                                },
 	{ 'nvim-lua/plenary.nvim'                                                                                                },
 	{ 'nvim-lua/popup.nvim'                                                                                                  },
 	{ 'nvim-telescope/telescope.nvim'           ,tag = '0.1.1'                          ,requires = {'nvim-lua/plenary.nvim'}},
@@ -30,6 +30,7 @@ local plugin_list = {
 	{ 'tpope/vim-fugitive'                                                                                                   },
 	{ 'wbthomason/packer.nvim'                                                                                               },
 	{ 'williamboman/mason.nvim'                 ,mod = require 'plugin.mason'           ,run = ':MasonUpdate'                },
+	{ 'williamboman/mason-lspconfig.nvim'       ,mod = require 'plugin.mason'           ,run = ':MasonUpdate'                },
 	{ 'windwp/nvim-autopairs'                   ,mod = require 'plugin.nvim-autopairs'                                       },
 	{ 'ziontee113/color-picker.nvim'            ,mod = require 'plugin.color-picker'                                         },
 	{
@@ -47,11 +48,6 @@ local plugin_list = {
 		},
 		tag = 'nightly',
 		mod = require 'plugin.nvim-tree',
-	},
-	{
-		'kylechui/nvim-surround',
-		tag = '*',
-		mod = require 'nvim-surround'
 	},
 }
 
