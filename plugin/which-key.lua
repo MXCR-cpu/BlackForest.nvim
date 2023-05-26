@@ -11,9 +11,9 @@ wk.register({
 	d = { '<cmd>DMsg<CR>', 'Get Diagnostic Error' },
 	i = { '<cmd>AerialToggle left<CR>', 'Open Aerial' },
 	f = { '<cmd>lua vim.lsp.buf.format{ async = true }<CR>', 'Format' },
-	n = { '<cmd>NvimTreeToggle<CR>', 'Nvim-Tree Toggle' },
+	n = { '<cmd>NeoTreeFocusToggle<CR>', 'NeoTree Toggle' },
 	q = { '<cmd>q<CR>', 'Quit' },
-	s = { '<cmd>PackerSync<CR>', 'Packer Sync' },
+	s = { '<cmd>Lazy sync<CR>', 'Lazy Sync' },
 	u = { '<cmd>UndotreeToggle<CR>', 'Undotree Toggle' },
 	v = { '<cmd>StartupTime<CR>', 'VimStartup Time' },
 	w = { '<cmd>w<CR>', 'Write' },
@@ -84,17 +84,6 @@ wk.register({
 		O = { '<cmd>MasonLog<CR>', 'Lsp Info' },
 		U = { '<cmd>MasonUpdate<CR>', 'Lsp Info' },
 	},
-	M = {
-		name = 'Nvim-Tree',
-		N = { '<cmd>NvimTreeToggle<CR>', 'Toggle File Tree' },
-		C = { '<cmd>lua require"nvim-tree.api".fs.create()<CR>', 'Create' },
-		R = { '<cmd>lua require"nvim-tree.api".fs.rename()<CR>', 'Rename' },
-		L = { '<cmd>lua require"nvim-tree.api".fs.remove()<CR>', 'Delete' },
-		D = { '<cmd>lua require"nvim-tree.api".tree.change_root_to_node()<CR>', 'New Root' },
-		O = { '<cmd>lua require"nvim-tree.api".tree.change_root_to_parent()<CR>', 'Old Root' },
-		S = { '<cmd>lua require"nvim-tree.api".tree.search_node()<CR>', 'Search' },
-		F = { '<cmd>lua require"nvim-tree.api".live_filter.start()<CR>', 'Filter' }
-	},
 	N = {
 		name = 'Luasnip',
 		E = { '<cmd>lua require"luasnip.loaders".edit_snippet_files()<CR>', 'Edit Snippets' },
@@ -127,17 +116,14 @@ wk.register({
 	},
 	T = {
 		name = 'Tasks',
-		L = {
-			'<cmd>!task long<CR>', 'List' },
-		A = {
-			'<cmd>lua vim.cmd("!task add " .. vim.fn.input"New Task: ")<CR>', 'Add' },
+		L = { '<cmd>!task long<CR>', 'List' },
+		A = { '<cmd>lua vim.cmd("!task add " .. vim.fn.input"New Task: ")<CR>', 'Add' },
 		D = {
 			'<cmd>lua vim.cmd("task delete" .. vim.fn.input"Delete Task Id: " .. " << echo ".. vim.fn.input"Confirm: ")<CR>',
-			'Delete' },
-		C = {
-			'<cmd>lua vim.cmd("task done" .. vim.fn.input"Complete Task Id: ")<CR>', 'Complete' },
-		S = {
-			'<cmd>lua vim.cmd"!task sync"<CR>', 'Sync' },
+			'Delete'
+		},
+		C = { '<cmd>lua vim.cmd("task done" .. vim.fn.input"Complete Task Id: ")<CR>', 'Complete' },
+		S = { '<cmd>lua vim.cmd"!task sync"<CR>', 'Sync' },
 	},
 	Z = {
 		name = 'Boop',

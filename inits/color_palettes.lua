@@ -29,5 +29,43 @@ local grey_tone = {
 	"#fbfbfb",
 	"#ffffff",
 }
-
-vim.g.colors_shades = grey_tone
+local temper_tone = {
+	'#2a363b',
+	'#e84a5f',
+	'#ff847c',
+	'#feceab',
+	'#99b898',
+}
+local sunset_tone = {
+	"#00202e",
+	"#003f5c",
+	"#2c4875",
+	"#8a508f",
+	"#bc5090",
+	"#ff6361",
+	"#ff8531",
+	"#ffa600",
+	"#ffd380",
+}
+local cherry_tone = {
+	"#261D1D",
+	"#131112",
+	"#1B2423",
+	"#362827",
+	"#26232C",
+	"#292D30",
+	"#33333C",
+	"#383F43",
+	"#4A3F3F",
+	"#4E535C",
+	"#B14433",
+	"#556163",
+	"#776461",
+	"#B86E3B",
+	"#B47575",
+	"#858B94",
+	"#BA9477",
+	"#8E9897",
+	"#CDBBBA"
+}
+vim.g.colors_shades = sunset_tone

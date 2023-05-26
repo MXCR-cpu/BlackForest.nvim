@@ -1,3 +1,6 @@
+local g = vim.g
+local api = vim.api
+local fn = vim.fn
 -- Eviline config for lualine
 -- Author: shadmansaleh
 -- Credit: glepnir
@@ -44,27 +47,20 @@ local config = {
 		icons_enabled = true,
 		component_separators = "",
 		section_separators = "",
-		-- theme = {
-		-- 	normal = { c = { fg = colors.fg, bg = colors.bg } },
-		-- 	inactive = { c = { fg = colors.fg, bg = colors.bg } },
-		-- },
 		theme = {
 			normal = { c = { fg = colors.fg } },
 			inactive = { c = { fg = colors.fg } },
 		},
 	},
 	sections = {
-		-- these are to remove the defaults
 		lualine_a = {},
 		lualine_b = {},
 		lualine_y = {},
 		lualine_z = {},
-		-- These will be filled later
 		lualine_c = {},
 		lualine_x = {},
 	},
 	inactive_sections = {
-		-- these are to remove the defaults
 		lualine_a = {},
 		lualine_b = {},
 		lualine_y = {},
@@ -88,9 +84,9 @@ end
 local climbing_color = 0
 
 local function color_mode_change()
-	climbing_color = (climbing_color + 1) % 48
+	climbing_color = (climbing_color + 1) % (2 * #g.colors_shades)
 	return {
-		fg = vim.g.colors_shades[29 - math.abs(climbing_color - 24)],
+		fg = vim.g.colors_shades[#g.colors_shades - math.abs(climbing_color - #g.colors_shades)],
 	}
 end
 
@@ -104,18 +100,17 @@ ins_left({
 ins_left({
 	"filename",
 	cond = conditions.buffer_not_empty,
-	color = { fg = vim.g.colors_shades[28] },
+	color = { fg = g.colors_shades[fn.color_index(100)] },
 })
 
-ins_left({ "location", color = { fg = vim.g.colors_shades[24] } })
+ins_left({ "location", color = { fg = g.colors_shades[fn.color_index(90)] } })
 
-ins_left({ "progress", color = { fg = vim.g.colors_shades[20] } })
+ins_left({ "progress", color = { fg = g.colors_shades[fn.color_index(80)] } })
 
 ins_left({
-	-- filesize component
 	"filesize",
 	cond = conditions.buffer_not_empty,
-	color = { fg = vim.g.colors_shades[16] },
+	color = { fg = g.colors_shades[fn.color_index(75)] },
 })
 
 ins_left({
@@ -160,20 +155,20 @@ ins_right({
 	"o:encoding", -- option component same as &encoding in viml
 	fmt = string.upper, -- I'm not sure why it's upper case either ;)
 	cond = conditions.hide_in_width,
-	color = { fg = vim.g.colors_shades[16] },
+	color = { fg = vim.g.colors_shades[fn.color_index(50)] },
 })
 
 ins_right({
 	"fileformat",
 	fmt = string.upper,
 	icons_enabled = false, -- I think icons are cool but Eviline doesn't have them. sigh
-	color = { fg = vim.g.colors_shades[20] },
+	color = { fg = vim.g.colors_shades[fn.color_index(60)] },
 })
 
 ins_right({
 	"branch",
 	icon = "",
-	color = { fg = vim.g.colors_shades[24] },
+	color = { fg = vim.g.colors_shades[fn.color_index(70)] },
 })
 
 ins_right({
@@ -181,9 +176,9 @@ ins_right({
 	-- Is it me or the symbol for modified us really weird
 	symbols = { added = " ", modified = "柳 ", removed = " " },
 	diff_color = {
-		added = { fg = vim.g.colors_shades[26] },
-		modified = { fg = vim.g.colors_shades[27] },
-		removed = { fg = vim.g.colors_shades[28] },
+		added = { fg = vim.g.colors_shades[fn.color_index(80)] },
+		modified = { fg = vim.g.colors_shades[fn.color_index(85)] },
+		removed = { fg = vim.g.colors_shades[fn.color_index(90)] },
 	},
 	cond = conditions.hide_in_width,
 })

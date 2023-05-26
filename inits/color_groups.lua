@@ -1,9 +1,15 @@
 local api = vim.api
 local g = vim.g
-
-local number_column_colors = { fg = g.colors_shades[10] }
-local sign_column_colors = { fg = g.colors_shades[15] }
-local highlight_text = { fg = g.colors_shades[1], bg = g.colors_shades[29] }
+local fn = vim.fn
+vim.fn.color_index = function(percentage)
+	return math.floor((percentage * #g.colors_shades) / 100)
+end
+local number_column_colors = { fg = g.colors_shades[fn.color_index(30)] }
+local sign_column_colors = { fg = g.colors_shades[fn.color_index(50)] }
+local highlight_text = {
+	fg = g.colors_shades[fn.color_index(20)],
+	bg = g.colors_shades[fn.color_index(100)]
+}
 local color_groups = {
 	-- Editor --
 	{ 'Normal',      {} },
@@ -43,24 +49,33 @@ local color_groups = {
 	{ 'NvimTreeSignColumn',   sign_column_colors },
 	{ 'CursorColumn',         sign_column_colors },
 	{ 'NvimTreeCursorColumn', sign_column_colors },
-	{ 'ColorColumn',          { fg = '#000000', bg = '#ffffff' } },
-	{ 'TODO',                 { fg = g.colors_shades[1], bg = g.colors_shades[20] } },
+	{ 'ColorColumn',          {
+		fg = g.colors_shades[fn.color_index(1)],
+		bg = g.colors_shades[fn.color_index(100)]
+	}},
+	{ 'TODO',                 {
+		fg = g.colors_shades[fn.color_index(20)],
+		bg = g.colors_shades[fn.color_index(60)]
+	}},
 	-- Telescope --
-	{ 'TelescopeSelection',   { fg = g.colors_shades[29], bg = g.colors_shades[5] } },
+	{ 'TelescopeSelection',   {
+		fg = g.colors_shades[fn.color_index(100)],
+		bg = g.colors_shades[fn.color_index(15)]
+	}},
 	--- NvimTree --
-	{ 'NvimTreeIndentMarker', { fg = g.colors_shades[10] } },
-	{ 'NvimTreeWindowPicker', { fg = g.colors_shades[5], bg = g.colors_shades[25] } },
-	-- WhichKey --
+	{ 'NvimTreeIndentMarker', {
+		fg = g.colors_shades[fn.color_index(50)]
+	}},
+	{ 'NvimTreeWindowPicker', {
+		fg = g.colors_shades[fn.color_index(40)],
+		bg = g.colors_shades[fn.color_index(80)]
+	}},
 	{ 'WhichKeyFloat',        {} },
-	{ 'WhichKey',             { fg = g.colors_shades[29] } },
-	{ 'WhichKeyDesc',         { fg = g.colors_shades[10] } },
-	{ 'WhichKeyGroup',        { fg = g.colors_shades[15] } },
-	{ 'WhichKeySeparator',    { fg = g.colors_shades[10] } },
-	{ 'WhichKeyBorder',       { fg = g.colors_shades[29] } },
 }
-
 local highlight_color_groups = {
 	{
+		'WhichKey',
+		'WhichKeyBorder',
 		'Function',
 		'Identifier',
 	},
@@ -73,14 +88,20 @@ local highlight_color_groups = {
 	{
 		'String',
 		'Number',
+	},
+	{
 		'PreProc',
 		'Define',
 		'Label',
 	},
 	{
+		'WhichKeyGroup',
 		'Keyword',
 		'Character',
 		'Constant',
+	},
+	{
+		'WhichKeyDesc',
 	},
 	{
 		'Type',
@@ -96,18 +117,21 @@ local highlight_color_groups = {
 for _, value in ipairs(color_groups) do
 	api.nvim_set_hl(0, value[1], value[2])
 end
-
 for key, value in ipairs(highlight_color_groups) do
 	for _, inner_value in ipairs(value) do
-		api.nvim_set_hl(0, inner_value, { fg = g.colors_shades[#g.colors_shades - 5 - (2 * key)] })
+		api.nvim_set_hl(0, inner_value, {
+			fg = g.colors_shades[
+				#g.colors_shades -
+				math.floor((#g.colors_shades * key) /
+					(#highlight_color_groups + 4))
+			]
+		})
 	end
 end
-
 local nvim_tree_icon = {
 	'NvimTreeFolderIcon',
 	'NvimTreeFileIcon',
 }
-
 for _, icon_name in ipairs(nvim_tree_icon) do
 	api.nvim_set_hl(0, icon_name, {
 		ctermfg = 'NONE',

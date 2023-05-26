@@ -20,7 +20,6 @@ opt.spell = true
 opt.spelllang = "en_us"
 
 g.nvim_directory = os.getenv "HOME" .. "/.config/BlackForest"
-cmd [[colorscheme Mies]]
 cmd [[set background=dark]]
 cmd [[set clipboard+=unnamedplus]]
 local init_files = {
@@ -29,14 +28,13 @@ local init_files = {
 	"/color_groups.lua",
 	"/commands.lua",
 	"/mappings.lua",
-	"/plugin_packer.lua",
+	"/plugin_lazy.lua",
 	"/utility.lua"
 }
 for _, file in ipairs(init_files) do
 	local file_path = g.nvim_directory .. "/inits" .. file
 	dofile(file_path)
 end
-cmd [[CheckPacker]]
 
 package.path = g.nvim_directory .. '/inits/?.lua;' .. package.path
 
