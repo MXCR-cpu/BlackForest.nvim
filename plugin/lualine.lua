@@ -1,12 +1,8 @@
 local g = vim.g
-local api = vim.api
 local fn = vim.fn
 -- Eviline config for lualine
 -- Author: shadmansaleh
 -- Credit: glepnir
-
--- Color table for highlights
--- stylua: ignore
 
 local colors = {
 	bg        = '#000000',
@@ -29,14 +25,14 @@ local colors = {
 
 local conditions = {
 	buffer_not_empty = function()
-		return vim.fn.empty(vim.fn.expand("%:t")) ~= 1
+		return fn.empty(fn.expand("%:t")) ~= 1
 	end,
 	hide_in_width = function()
-		return vim.fn.winwidth(0) > 80
+		return fn.winwidth(0) > 80
 	end,
 	check_git_workspace = function()
-		local filepath = vim.fn.expand("%:p:h")
-		local gitdir = vim.fn.finddir(".git", filepath .. ";")
+		local filepath = fn.expand("%:p:h")
+		local gitdir = fn.finddir(".git", filepath .. ";")
 		return gitdir and #gitdir > 0 and #gitdir < #filepath
 	end,
 }
@@ -71,47 +67,48 @@ local config = {
 }
 
 -- Functions --
--- Inserts a component in lualine_c at left section
+local climbing_color = 0
+local interval = 100
+local half_interval = math.floor(interval / 2)
+local conversion = (#g.colors_shades - 1) / half_interval
+
+local function color_mode_change()
+	return {
+		fg = g.colors_shades[math.floor(conversion * math.abs(climbing_color - half_interval)) + 1]
+	}
+end
+
 local function ins_left(component)
 	table.insert(config.sections.lualine_c, component)
 end
 
--- Inserts a component in lualine_x ot right section
 local function ins_right(component)
 	table.insert(config.sections.lualine_x, component)
 end
 
-local climbing_color = 0
-
-local function color_mode_change()
-	climbing_color = (climbing_color + 1) % (2 * #g.colors_shades)
-	return {
-		fg = vim.g.colors_shades[#g.colors_shades - math.abs(climbing_color - #g.colors_shades)],
-	}
-end
-
-ins_left({
+ins_left{
 	function()
-		return "████ " .. string.upper(vim.fn.mode()) .. " ████"
+		climbing_color = (climbing_color % interval) + 1
+		return "░▒▓█ " .. string.upper(fn.mode()) .. " █▓▒░"
 	end,
 	color = color_mode_change,
-})
+}
 
-ins_left({
+ins_left{
 	"filename",
 	cond = conditions.buffer_not_empty,
 	color = { fg = g.colors_shades[fn.color_index(100)] },
-})
+}
 
-ins_left({ "location", color = { fg = g.colors_shades[fn.color_index(90)] } })
+ins_left{ "location", color = { fg = g.colors_shades[fn.color_index(90)] } }
 
-ins_left({ "progress", color = { fg = g.colors_shades[fn.color_index(80)] } })
+ins_left{ "progress", color = { fg = g.colors_shades[fn.color_index(80)] } }
 
-ins_left({
+ins_left{
 	"filesize",
 	cond = conditions.buffer_not_empty,
 	color = { fg = g.colors_shades[fn.color_index(75)] },
-})
+}
 
 ins_left({
 	"diagnostics",
@@ -174,7 +171,7 @@ ins_right({
 ins_right({
 	"diff",
 	-- Is it me or the symbol for modified us really weird
-	symbols = { added = " ", modified = "柳 ", removed = " " },
+	symbols = { added = " ", modified = "◎ ", removed = " " },
 	diff_color = {
 		added = { fg = vim.g.colors_shades[fn.color_index(80)] },
 		modified = { fg = vim.g.colors_shades[fn.color_index(85)] },
@@ -185,7 +182,7 @@ ins_right({
 
 ins_right({
 	function()
-		return "████  ████"
+		return "░▒▓█  █▓▒░"
 	end,
 	color = color_mode_change,
 })

@@ -2,6 +2,7 @@ local fn = vim.fn
 local loop = vim.loop
 local o = vim.o
 local opt = vim.opt
+local cmd = vim.cmd
 package.path = vim.g.nvim_directory .. '/?.lua;' .. package.path
 local lazypath = fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not loop.fs_stat(lazypath) then
@@ -15,16 +16,28 @@ if not loop.fs_stat(lazypath) then
 	}
 end
 opt.rtp:prepend(lazypath)
-require "lazy".setup {
+require 'lazy'.setup {
 	{
-		"L3MON4D3/LuaSnip",
-		version = "<CurrentMajor>.*",
-		build = "make install_jsregexp",
+		'L3MON4D3/LuaSnip',
+		version = '<CurrentMajor>.*',
+		build = 'make install_jsregexp',
 		init = function()
 			require 'plugin.luasnip'
 		end
 	},
-	'MXCR-cpu/boop.nvim',
+	{
+		'MXCR-cpu/boop.nvim',
+		dir = '/Users/iMac/Desktop/Dev/Lua_Dev/plugins/boop.nvim',
+		dev = true,
+	},
+	{
+		'MXCR-cpu/sensai.nvim',
+		dir = '/Users/iMac/Desktop/Dev/Lua_Dev/plugins/sensai.nvim',
+		dev = true,
+		init = function()
+			require 'sensai'.setup()
+		end
+	},
 	{
 		'ThePrimeagen/harpoon',
 		config = function()
@@ -91,6 +104,7 @@ require "lazy".setup {
 			require 'plugin.nvim-treesitter'
 		end
 	},
+	'nvim-treesitter/playground',
 	{
 		'sQVe/sort.nvim',
 		init = function()
@@ -106,12 +120,6 @@ require "lazy".setup {
 		'stevearc/aerial.nvim',
 		init = function()
 			require 'plugin.aerial'
-		end
-	},
-	{
-		'stevearc/oil.nvim',
-		init = function()
-			require "oil".setup()
 		end
 	},
 	'tpope/vim-fugitive',
@@ -136,7 +144,10 @@ require "lazy".setup {
 		version = '0.1.1',
 		dependencies = {
 			'nvim-lua/plenary.nvim'
-		}
+		},
+		init = function()
+			require'telescope'.load_extension('harpoon')
+		end
 	},
 	{
 		'nvim-neo-tree/neo-tree.nvim',
@@ -145,7 +156,19 @@ require "lazy".setup {
 			'nvim-lua/plenary.nvim',
 			'nvim-tree/nvim-web-devicons',
 			'MunifTanjim/nui.nvim',
-		}
+		},
+		init = function()
+			require'neo-tree'.setup{
+				filesystem = {
+					filtered_items = {
+						visible = true,
+						hide_dotfiles = false,
+						hide_gitignored = false,
+					},
+					follow_current_fle = true,
+				},
+			}
+		end
 	},
 	{
 		'nvim-lualine/lualine.nvim',

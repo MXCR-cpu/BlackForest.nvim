@@ -9,15 +9,19 @@ wk.register({
 	W = { '<cmd>w!<CR>', 'Force Write' },
 	c = { '<cmd>ClearHighlight<CR>', 'Clear Highlight' },
 	d = { '<cmd>DMsg<CR>', 'Get Diagnostic Error' },
-	i = { '<cmd>AerialToggle left<CR>', 'Open Aerial' },
 	f = { '<cmd>lua vim.lsp.buf.format{ async = true }<CR>', 'Format' },
+	h = { '<cmd>wincmd h<CR>', 'Switch Pane Left' },
+	i = { '<cmd>AerialToggle left<CR>', 'Open Aerial' },
+	j = { '<cmd>wincmd j<CR>', 'Switch Pane Down' },
+	k = { '<cmd>wincmd k<CR>', 'Switch Pane Up' },
+	l = { '<cmd>wincmd l<CR>', 'Switch Pane Right' },
 	n = { '<cmd>NeoTreeFocusToggle<CR>', 'NeoTree Toggle' },
 	q = { '<cmd>q<CR>', 'Quit' },
 	s = { '<cmd>Lazy sync<CR>', 'Lazy Sync' },
 	u = { '<cmd>UndotreeToggle<CR>', 'Undotree Toggle' },
 	v = { '<cmd>StartupTime<CR>', 'VimStartup Time' },
 	w = { '<cmd>w<CR>', 'Write' },
-	z = { '<cmd>w | so %<CR>', 'Reload Neovim' },
+	z = { '<cmd>luafile $MYVIMRC<CR>', 'Reload Neovim' },
 	A = {
 		name = 'Align',
 		l = { '<cmd>lua require"utility".align("left" ,false)<CR>', 'Align Left' },
@@ -64,9 +68,17 @@ wk.register({
 	H = {
 		name = 'Harpoon',
 		A = { '<cmd>lua require"harpoon.mark".add_file()<CR>', 'Add File' },
-		R = { '<cmd>lua require"harpoon.mark".rm_file()<CR>', 'Add File' },
+		R = { '<cmd>lua require"harpoon.mark".rm_file()<CR>', 'Remove File' },
 		S = { '<cmd>lua require"harpoon.mark".set_current_at(0 + vim.fn.input"Index: ")<CR>', 'Set To Index' },
-		G = { '<cmd>lua require"harpoon.ui".nav_file(0 + vim.fn.input"Index: ")<CR>', 'GoTo Index' },
+		G = { string.gsub([[<cmd> lua
+			local co = coroutine.create(function()
+				require"harpoon.ui".nav_file(0 + vim.fn.input"⇀ ")
+			end)
+			require"harpoon.ui".toggle_quick_menu()
+			vim.schedule(function()
+				coroutine.resume(co)
+			end)
+			<CR>]], '\n', ' '), 'Go To Index' },
 		N = { '<cmd>lua require"harpoon.ui".nav_next()<CR>', 'Next Mark' },
 		P = { '<cmd>lua require"harpoon.ui".nav_prev()<CR>', 'Previous Mark' },
 		M = { '<cmd>lua require"harpoon.ui".toggle_quick_menu()<CR>', 'Menu' },
@@ -80,9 +92,9 @@ wk.register({
 		P = { '<cmd>LspStop<CR>', 'Stop Lsp' },
 		L = { '<cmd>LspLog<CR>', 'Lsp Log' },
 		I = { '<cmd>LspInfo<CR>', 'Lsp Info' },
-		M = { '<cmd>Mason<CR>', 'Lsp Info' },
-		O = { '<cmd>MasonLog<CR>', 'Lsp Info' },
-		U = { '<cmd>MasonUpdate<CR>', 'Lsp Info' },
+		M = { '<cmd>Mason<CR>', 'Mason' },
+		O = { '<cmd>MasonLog<CR>', 'Mason Log' },
+		U = { '<cmd>MasonUpdate<CR>', 'Mason Update' },
 	},
 	N = {
 		name = 'Luasnip',
@@ -102,10 +114,6 @@ wk.register({
 	},
 	P = {
 		name = 'Panes',
-		h = { '<cmd>wincmd h<CR>', 'Switch Pane Left' },
-		j = { '<cmd>wincmd j<CR>', 'Switch Pane Down' },
-		k = { '<cmd>wincmd k<CR>', 'Switch Pane Up' },
-		l = { '<cmd>wincmd l<CR>', 'Switch Pane Right' },
 		H = { '<cmd>vert resize -5<CR>', 'Decrease Pane Width' },
 		J = { '<cmd>resize -5<CR>', 'Decrease Pane Height' },
 		K = { '<cmd>resize +5<CR>', 'Increase Pane Height' },
@@ -144,7 +152,7 @@ wk.register({
 			B = { '<cmd>BoopToBinary<CR>', 'Binary' },
 		},
 		C = {
-			name = 'Case',
+ 			name = 'Case',
 			C = { '<cmd>BoopCamelCase<CR>', 'Camel' },
 			K = { '<cmd>BoopKebabCase<CR>', 'Kebab' },
 			S = { '<cmd>BoopSnakeCase<CR>', 'Snake' },
