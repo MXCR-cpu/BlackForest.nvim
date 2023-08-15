@@ -15,7 +15,7 @@ local mappings = {
 	{ "i", "<C-]>",              "function() return vim.fn['codeium#CycleCompletions'](1) end" },
 	{ "i", "<C-[>",              "function() return vim.fn['codeium#CycleCompletions'](-1) end" },
 	{ "i", "<C-x>",              "function() return vim.fn['codeium#Clear']() end" },
-	{ "i", "<C-c>",              "function() return vim.fn['codeium#Complete']() end" },
+	{ "i", "<C-s>",              "function() return vim.fn['codeium#Complete']() end" },
 }
 
 
