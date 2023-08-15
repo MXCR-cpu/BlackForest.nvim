@@ -12,12 +12,13 @@ opt.guicursor = "n-v-c-sm-i-ci-ve-r-cr-o:block"
 opt.ignorecase = true
 opt.incsearch = true
 opt.linebreak = true
-opt.number = true
+opt.relativenumber = true
 opt.showbreak = ">>> "
 opt.smartindent = true
 opt.smartindent = true
 opt.spell = true
 opt.spelllang = "en_us"
+opt.wrap = true
 
 g.nvim_directory = os.getenv "HOME" .. "/.config/BlackForest"
 cmd [[set background=dark]]

@@ -79,6 +79,10 @@ local user_commands = {
 			return
 		end
 	end, {} },
+	Tm = { function()
+		cmd [[term]]
+		cmd [[set nonumber]]
+	end, {} },
 }
 
 for key, command_values in pairs(user_commands) do

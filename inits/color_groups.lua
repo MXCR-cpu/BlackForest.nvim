@@ -87,6 +87,7 @@ local color_groups = {
 		} },
 	},
 	null = {
+		'@none',
 		'Normal',
 		'NormalNC',
 		'NormalFloat',
@@ -106,6 +107,7 @@ local color_groups = {
 			'WhichKeyBorder',
 		},
 		{
+			'@text.title.2',
 			'CmpItemAbbrDefault',
 			'CursorLineNr',
 			'NeoTreeTabBar',
@@ -122,6 +124,8 @@ local color_groups = {
 			'rustFoldBraces',
 		},
 		{
+			'@string',
+			'@tag',
 			'Character',
 			'Constant',
 			'Number',
@@ -130,6 +134,7 @@ local color_groups = {
 			'WhichKeyGroup',
 		},
 		{
+			'@spell',
 			'Define',
 			'Directory',
 			'Type',
@@ -138,6 +143,7 @@ local color_groups = {
 			'@attribute',
 			'@conditional',
 			'@constant',
+			'@tag.attribute',
 			'Conditional',
 			'Keyword',
 			'Label',
@@ -148,10 +154,12 @@ local color_groups = {
 		{
 			'@constructor',
 			'@punctuation',
+			'@tag.delimiter',
 			'Comment',
 			'Delimiter',
-			'Special',
 			'NeoTreeRootName',
+			'Special',
+			'zshBrackets',
 		},
 		{
 			'LineNr',

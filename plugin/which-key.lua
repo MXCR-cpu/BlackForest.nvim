@@ -18,6 +18,7 @@ wk.register({
 	n = { '<cmd>NeoTreeFocusToggle<CR>', 'NeoTree Toggle' },
 	q = { '<cmd>q<CR>', 'Quit' },
 	s = { '<cmd>Lazy sync<CR>', 'Lazy Sync' },
+	t = { '<cmd>Tm<CR>', 'Terminal' },
 	u = { '<cmd>UndotreeToggle<CR>', 'Undotree Toggle' },
 	v = { '<cmd>StartupTime<CR>', 'VimStartup Time' },
 	w = { '<cmd>w<CR>', 'Write' },
@@ -84,6 +85,13 @@ wk.register({
 		M = { '<cmd>lua require"harpoon.ui".toggle_quick_menu()<CR>', 'Menu' },
 		T = { '<cmd>Telescope harpoon marks<CR>', 'Telescope Menu' },
 		L = { '<cmd>lua require"harpoon.term".gotoTerminal(1)<CR>', 'Terminal 1' },
+	},
+	I = {
+		name = 'Codeium',
+		['<C-g>'] = { '', 'Accept Completion' },
+		['<C-;>'] = { '', 'Cycle Forward' },
+		['<C-,>'] = { '', 'Cycle Backward' },
+		['<C-x>'] = { '', 'Clear Completion' },
 	},
 	L = {
 		name = 'LSP',
