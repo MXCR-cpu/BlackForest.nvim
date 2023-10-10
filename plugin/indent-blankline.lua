@@ -1,11 +1,28 @@
-vim.opt.list = true
-vim.opt.termguicolors = true
+local opt = vim.opt
+opt.list = true
+opt.termguicolors = true
 
--- vim.cmd([[highlight IndentBlanklineIndent1 guifg=#2D4F67 gui=nocombine]])
--- vim.cmd([[highlight IndentBlanklineIndent2 guifg=#E5C07B gui=nocombine]])
+require("ibl").setup {
+	enabled = true,
+	indent = {
+		char = "│",
+		smart_indent_cap = true,
+	},
+	whitespace = {
+		highlight = {
+			"CursorColumn",
+			"Whitespace",
+		},
+		remove_blankline_trail = true,
+	},
+	scope = {
+		enabled = true,
+		show_start = true,
+		show_end = false,
+		injected_languages = false,
+		highlight = { "ScopeGuide" },
+		priority = 500,
+	}
+}
 
-require("indent_blankline").setup({
-	space_char_blankline = " ",
-	show_current_context = true,
-	show_current_context_start = true,
-})
+

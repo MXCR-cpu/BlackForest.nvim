@@ -7,8 +7,6 @@ wk.setup {
 wk.register({
 	Q = { '<cmd>q!<CR>', 'Force Quit' },
 	W = { '<cmd>w!<CR>', 'Force Write' },
-	c = { '<cmd>ClearHighlight<CR>', 'Clear Highlight' },
-	d = { '<cmd>DMsg<CR>', 'Get Diagnostic Error' },
 	f = { '<cmd>lua vim.lsp.buf.format{ async = true }<CR>', 'Format' },
 	h = { '<cmd>wincmd h<CR>', 'Switch Pane Left' },
 	i = { '<cmd>AerialToggle left<CR>', 'Open Aerial' },
@@ -18,68 +16,81 @@ wk.register({
 	n = { '<cmd>NeoTreeFocusToggle<CR>', 'NeoTree Toggle' },
 	q = { '<cmd>q<CR>', 'Quit' },
 	s = { '<cmd>Lazy sync<CR>', 'Lazy Sync' },
-	t = { '<cmd>Tm<CR>', 'Terminal' },
 	u = { '<cmd>UndotreeToggle<CR>', 'Undotree Toggle' },
 	v = { '<cmd>StartupTime<CR>', 'VimStartup Time' },
 	w = { '<cmd>w<CR>', 'Write' },
 	z = { '<cmd>luafile $MYVIMRC<CR>', 'Reload Neovim' },
-	A = {
+	a = {
 		name = 'Align',
 		l = { '<cmd>lua require"utility".align("left" ,false)<CR>', 'Align Left' },
 		L = { '<cmd>lua require"utility".align("left" ,true)<CR>', 'Align Gap Left' },
 		r = { '<cmd>lua require"utility".align("right",false)<CR>', 'Align Right' },
-		R = { '<cmd>lua require"utility".align("right",true)<CR>', 'Align Gap Right' },
+		R = {
+			'<cmd>lua require"utility".align("right",true)<CR>',
+			'Align Gap Right'
+		},
 	},
-	B = {
+	b = {
 		name = 'Buffer',
-		N = { '<cmd>bnext<CR>', 'Next Buffer' },
-		P = { '<cmd>bprevious<CR>', 'Previous Buffer' },
-		C = { '<cmd>bw!<CR>', 'Close Buffer' },
-		T = { '<cmd>lua vim.lsp.buf.type_definition()<CR>', 'Defintion' },
-		S = { '<cmd>lua vim.lsp.buf.signature_help()<CR>', 'Signature Help' },
-		D = { '<cmd>lua vim.lsp.buf.definition()<CR>', 'Buffer Definition' },
-		E = { '<cmd>lua vim.lsp.buf.declaration()<CR>', 'Buffer Declaration' },
-		H = { '<cmd>lua vim.lsp.buf.hover()<CR>', 'Hover' },
+		c = { '<cmd>BufferClose<CR>', 'Close Buffer' },
+		d = { '<cmd>BufferDelete!<CR>', 'Delete Buffer' },
+		e = { '<cmd>lua vim.lsp.buf.declaration()<CR>', 'Buffer Declaration' },
+		h = { '<cmd>lua vim.lsp.buf.hover()<CR>', 'Hover' },
+		n = { '<cmd>BufferNext<CR>', 'Next Buffer' },
+		p = { '<cmd>BufferPrevious<CR>', 'Previous Buffer' },
+		s = { '<cmd>lua vim.lsp.buf.signature_help()<CR>', 'Signature Help' },
+		t = { '<cmd>lua vim.lsp.buf.type_definition()<CR>', 'Defintion' },
+		m = { name = 'Move',
+			n = { '<cmd>BufferMoveNext<CR>', 'Move Buffer Next' },
+			p = { '<cmd>BufferMovePrevious<CR>', 'Move Buffer Previous' },
+		},
 	},
-	C = {
-		name = 'Nvim-Cmp(Insert)',
-		['<C-]>'] = { '', 'Select Next Item' },
-		['<C-[>'] = { '', 'Select Previous Item' },
-		['<C-}>'] = { '', 'Scroll Docs Down' },
-		['<C-{>'] = { '', 'Scroll Docs Up' },
-		['<C-.>'] = { '', 'Select Item' },
-		['<C-!>'] = { '', 'Abort' },
-		['<C-;>'] = { '', 'Confirm Selection' },
+	c = {
+		name = 'Codium',
+		e = { '<cmd>CodeiumEnable<CR>', 'Enable Codeium' },
+		d = { '<cmd>CodeiumDisable<CR>', 'Disable Codeium' },
 	},
-	D = {
+	d = {
 		name = "Diagnostic",
-		A = { '<cmd>lua vim.lsp.buf.code_action()<CR>', 'Code Action' },
-		F = { '<cmd>vim.diagnostic.open_float()<CR>', 'Float' },
-		I = { '<cmd>lua vim.lsp.buf.implementation()<CR>', 'Implementation' },
-		T = { '<cmd>lua vim.lsp.buf.type_definition()<CR>', 'Type' },
+		a = { '<cmd>lua vim.lsp.buf.code_action()<CR>', 'Code Action' },
+		d = { '<cmd>DMsg<CR>', 'Get Diagnostic Error' },
+		f = { '<cmd>vim.diagnostic.open_float()<CR>', 'Float' },
+		i = { '<cmd>lua vim.lsp.buf.implementation()<CR>', 'Implementation' },
+		t = { '<cmd>lua vim.lsp.buf.type_definition()<CR>', 'Type' },
 	},
-	E = {
+	e = {
 		name = 'Telescope',
-		F = { '<cmd>Telescope find_files<CR>', 'Find Files' },
-		G = { '<cmd>Telescope live_grep<CR>', 'Live Grep' },
-		B = { '<cmd>Telescope buffers<CR>', 'List Buffers' },
-		H = { '<cmd>Telescope help_tags<CR>', 'Help Tags' },
-		C = { '<cmd>Telescope highlights<CR>', 'Highlight Groups' },
+		f = { '<cmd>Telescope find_files<CR>', 'Find Files' },
+		g = { '<cmd>Telescope live_grep<CR>', 'Live Grep' },
+		b = { '<cmd>Telescope buffers<CR>', 'List Buffers' },
+		h = { '<cmd>Telescope help_tags<CR>', 'Help Tags' },
+		c = { '<cmd>Telescope highlights<CR>', 'Highlight Groups' },
+	},
+	G = {
+		name = 'Games',
+		T = { '<cmd>lua require("typebreak").start()<CR>', 'Typebreak' }
 	},
 	H = {
 		name = 'Harpoon',
 		A = { '<cmd>lua require"harpoon.mark".add_file()<CR>', 'Add File' },
 		R = { '<cmd>lua require"harpoon.mark".rm_file()<CR>', 'Remove File' },
-		S = { '<cmd>lua require"harpoon.mark".set_current_at(0 + vim.fn.input"Index: ")<CR>', 'Set To Index' },
-		G = { string.gsub([[<cmd> lua
-			local co = coroutine.create(function()
-				require"harpoon.ui".nav_file(0 + vim.fn.input"⇀ ")
-			end)
-			require"harpoon.ui".toggle_quick_menu()
-			vim.schedule(function()
-				coroutine.resume(co)
-			end)
-			<CR>]], '\n', ' '), 'Go To Index' },
+		S = {
+			[[<cmd>lua
+			require"harpoon.mark".set_current_at(0 + vim.fn.input"Index: ")<CR>]],
+			'Set To Index'
+		},
+		G = {
+			string.gsub([[<cmd>lua
+				local co = coroutine.create(function()
+					require"harpoon.ui".nav_file(0 + vim.fn.input"⇀ ")
+				end)
+				require"harpoon.ui".toggle_quick_menu()
+				vim.schedule(function()
+					coroutine.resume(co)
+				end)
+				<CR>]], '\n', ' '),
+			'Go To Index'
+		},
 		N = { '<cmd>lua require"harpoon.ui".nav_next()<CR>', 'Next Mark' },
 		P = { '<cmd>lua require"harpoon.ui".nav_prev()<CR>', 'Previous Mark' },
 		M = { '<cmd>lua require"harpoon.ui".toggle_quick_menu()<CR>', 'Menu' },
@@ -106,39 +117,58 @@ wk.register({
 	},
 	N = {
 		name = 'Luasnip',
-		E = { '<cmd>lua require"luasnip.loaders".edit_snippet_files()<CR>', 'Edit Snippets' },
-		O = { '<cmd>e ' .. g.nvim_directory .. '/Luasnip/<CR>', 'Open Snippet Directory' },
+		E = {
+			'<cmd>lua require"luasnip.loaders".edit_snippet_files()<CR>',
+			'Edit Snippets'
+		},
+		O = {
+			'<cmd>e ' .. g.nvim_directory .. '/Luasnip/<CR>',
+			'Open Snippet Directory'
+		},
 	},
-	O = {
+	o = {
 		name = 'Open',
-		i = { '<cmd>e ' .. g.nvim_directory .. '/init.lua<CR>', 'Init' },
-		P = { '<cmd>e ' .. g.nvim_directory .. '/plugin<CR>', 'Plugin' },
-		I = { '<cmd>e ' .. g.nvim_directory .. '/inits<CR>', 'Inits' },
-		p = { '<cmd>e ' .. g.nvim_directory .. '/inits/plugin_packer.lua<CR>', 'Packer' },
-		W = { '<cmd>e ' .. g.nvim_directory .. '/plugin/which-key.lua<CR>', 'Which-Key' },
-		L = { '<cmd>e ' .. g.nvim_directory .. '/plugin/lspconfig.lua<CR>', 'Lspconfig' },
-		A = { '<cmd>e ' .. os.getenv 'HOME' .. '/.config/alacritty/alacritty.yml<CR>', 'Alacritty' },
-		Z = { '<cmd>e ' .. os.getenv 'HOME' .. '/.zshrc<CR>', 'Open Zsh Config File' },
+		c = {
+			[[<cmd>lua require'telescope.builtin'.find_files({ ]] ..
+				[[cwd = '/Users/iMac/.config/BlackForest/', ]] ..
+				[[prompt_title = 'vimwiki' })<CR>]],
+			'Config'
+		},
+		a = {
+			'<cmd>e ' .. os.getenv 'HOME' .. '/.config/alacritty/alacritty.yml<CR>',
+			'Alacritty'
+		},
+		z = {
+			'<cmd>e ' .. os.getenv 'HOME' .. '/.zshrc<CR>',
+			'Open Zsh Config File'
+		},
 	},
-	P = {
-		name = 'Panes',
-		H = { '<cmd>vert resize -5<CR>', 'Decrease Pane Width' },
-		J = { '<cmd>resize -5<CR>', 'Decrease Pane Height' },
-		K = { '<cmd>resize +5<CR>', 'Increase Pane Height' },
-		L = { '<cmd>vert resize +5<CR>', 'Increase Pane Width' },
-		r = { '<cmd>wincmd =<CR>', 'Reload Window Pages' },
-		n = { '<cmd>split<CR>', 'Horizontal Split' },
-		m = { '<cmd>vsplit<CR>', 'Vertical Split' },
+	t = {
+		name = 'Tabs',
+		l = { '<cmd>tabs<CR>', 'List Tabs' },
+		e = { '<cmd>tabnew<CR>', 'New Tab' },
+		n = { '<cmd>tabnext<CR>', 'Next Tab' },
+		p = { '<cmd>tabprevious<CR>', 'Previous Tab' },
+		s = { '<cmd>tabonly<CR>', 'Focus Tab' },
+		c = { '<cmd>tabclose<CR>', 'Close Tab' },
 	},
 	T = {
 		name = 'Tasks',
 		L = { '<cmd>!task long<CR>', 'List' },
-		A = { '<cmd>lua vim.cmd("!task add " .. vim.fn.input"New Task: ")<CR>', 'Add' },
+		A = {
+			'<cmd>lua vim.cmd("!task add " .. vim.fn.input"New Task: ")<CR>',
+			'Add'
+		},
 		D = {
-			'<cmd>lua vim.cmd("task delete" .. vim.fn.input"Delete Task Id: " .. " << echo ".. vim.fn.input"Confirm: ")<CR>',
+			[[<cmd>lua vim.cmd(]] ..
+				[["task delete" .. vim.fn.input"Delete Task Id: ]] ..
+				[[" .. " << echo ".. vim.fn.input"Confirm: ")<CR>']],
 			'Delete'
 		},
-		C = { '<cmd>lua vim.cmd("task done" .. vim.fn.input"Complete Task Id: ")<CR>', 'Complete' },
+		C = {
+			'<cmd>lua vim.cmd("task done" .. vim.fn.input"Complete Task Id: ")<CR>',
+			'Complete'
+		},
 		S = { '<cmd>lua vim.cmd"!task sync"<CR>', 'Sync' },
 	},
 	Z = {
@@ -167,3 +197,4 @@ wk.register({
 		}
 	}
 }, { prefix = '<leader>' })
+
