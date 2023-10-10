@@ -2,8 +2,8 @@ local fn = vim.fn
 local loop = vim.loop
 local o = vim.o
 local opt = vim.opt
-local cmd = vim.cmd
-package.path = vim.g.nvim_directory .. '/?.lua;' .. package.path
+local g = vim.g
+package.path = g.nvim_directory .. '/?.lua;' .. package.path
 local lazypath = fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not loop.fs_stat(lazypath) then
 	fn.system {
@@ -34,15 +34,7 @@ require 'lazy'.setup {
 		end
 	},
 	'Exafunction/codeium.vim',
-	-- Plugins
-	{
-		'L3MON4D3/LuaSnip',
-		version = '<CurrentMajor>.*',
-		build = 'make install_jsregexp',
-		init = function()
-			require 'plugin.luasnip'
-		end
-	},
+	-- Personal Plugins
 	{
 		'MXCR-cpu/boop.nvim',
 		dir = '/Users/iMac/Desktop/Dev/Lua_Dev/plugins/boop.nvim',
@@ -56,6 +48,7 @@ require 'lazy'.setup {
 			require 'sensai'.setup()
 		end
 	},
+	-- Plugins
 	{
 		'ThePrimeagen/harpoon',
 		config = function()
@@ -73,10 +66,14 @@ require 'lazy'.setup {
 		end,
 		opts = {}
 	},
-	'hrsh7th/cmp-buffer',
+	-- 'hrsh7th/cmp-buffer',
 	'hrsh7th/cmp-cmdline',
-	'hrsh7th/cmp-nvim-lsp',
+	-- 'hrsh7th/cmp-nvim-lsp',
 	'hrsh7th/cmp-path',
+	{
+		'neoclide/coc.nvim',
+		branch = 'release',
+	},
 	{
 		'hrsh7th/nvim-cmp',
 		init = function()
@@ -103,6 +100,10 @@ require 'lazy'.setup {
 		end
 	},
 	{
+		'nagy135/typebreak.nvim',
+		requires = 'nvim-lua/plenary.nvim'
+	},
+	{
 		'neovim/nvim-lspconfig',
 		init = function()
 			require 'plugin.nvim-lspconfig'
@@ -124,10 +125,20 @@ require 'lazy'.setup {
 	},
 	'nvim-treesitter/playground',
 	{
+		'romgrk/barbar.nvim',
+		dependencies = {
+			'lewis6991/gitsigns.nvim',
+			'nvim-tree/nvim-web-devicons',
+		},
+		init = function()
+			vim.g.barbar_auto_setup = true
+		end
+	},
+	{
 		'sQVe/sort.nvim',
 		init = function()
 			require 'plugin.sort'
-		end
+				end
 	},
 	{
 		'saadparwaiz1/cmp_luasnip',
@@ -141,16 +152,13 @@ require 'lazy'.setup {
 		end
 	},
 	'tpope/vim-fugitive',
-	'rktjmp/lush.nvim',
 	{
 		'williamboman/mason.nvim',
 		init = function()
 			require 'plugin.mason'
 		end
 	},
-	{
-		'williamboman/mason-lspconfig.nvim',
-	},
+	'williamboman/mason-lspconfig.nvim',
 	{
 		'windwp/nvim-autopairs',
 		init = function()

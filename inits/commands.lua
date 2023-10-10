@@ -2,7 +2,6 @@ local api = vim.api
 local cmd = vim.cmd
 local fn = vim.fn
 
-
 local user_commands = {
 	ClearHighlight = { function()
 		cmd [[let @/ = ""]]
@@ -83,8 +82,12 @@ local user_commands = {
 		cmd [[term]]
 		cmd [[set nonumber]]
 	end, {} },
+	Scratch = { function()
+			cmd([[e /tmp/]] .. cmd([[!date]]))
+		end, {} }
 }
 
 for key, command_values in pairs(user_commands) do
 	api.nvim_create_user_command(key, command_values[1], command_values[2])
 end
+
