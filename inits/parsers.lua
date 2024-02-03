@@ -1,4 +1,6 @@
-vim.treesitter.query.set(
+local query = vim.treesitter.query
+
+query.set(
   "markdown_inline",
   "highlights",
   [[
@@ -7,13 +9,15 @@ vim.treesitter.query.set(
     (shortcut_link) @text.delimiter
     (emphasis) @text.emphasis
     (link_text) @text.uri
+    (code_span) @text.code
   ]]
 )
 
-vim.treesitter.query.set(
+query.set(
   "markdown",
   "highlights",
   [[
+    (fenced_code_block) @text.code
     (atx_heading heading_content: (inline)) @text.heading.inline
     (paragraph) @text
     (list_marker_dot) @punctuation
@@ -22,5 +26,11 @@ vim.treesitter.query.set(
   ]]
 )
 
-
-
+-- query.set(
+--   "css",
+--   "highlights",
+--   [[
+--     (plain_value) @plain.value
+--   ]]
+-- )
+--

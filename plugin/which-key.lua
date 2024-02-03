@@ -1,200 +1,210 @@
 local g = vim.g
 local wk = require('which-key')
+local ivy_picker = require("telescope.themes").get_ivy({})
+
+local pickers = require("telescope.pickers")
+local finders = require("telescope.finders")
+local conf = require("telescope.config").values
+local actions = require("telescope.actions")
+local action_state = require("telescope.actions.state")
+local create_ivy_picker = function(values, opts)
+  print(vim.inspect(values))
+  opts = opts or {}
+  pickers.new(opts, require("telescope.themes").get_ivy({
+    prompt_title = "Colors",
+    finder = finders.new_table({
+      results = values
+    }),
+    sorter = conf.generic_sorter(opts),
+    attach_mappings = function(prompt_bufnr, _)
+      actions.select_default:replace(function()
+        actions.close(prompt_bufnr)
+        local selection = action_state.get_selected_entry()
+        local config = require("lspconfig.configs")[selection[1]]
+        config.launch()
+      end)
+      return true
+    end
+  })):find()
+end
+
 wk.setup {
-	ignore_missing = true,
+  ignore_missing = true,
+  icons = {
+    separator = "->",
+  }
 }
 
 wk.register({
-	Q = { '<cmd>q!<CR>', 'Force Quit' },
-	W = { '<cmd>w!<CR>', 'Force Write' },
-	f = { '<cmd>lua vim.lsp.buf.format{ async = true }<CR>', 'Format' },
-	h = { '<cmd>wincmd h<CR>', 'Switch Pane Left' },
-	i = { '<cmd>AerialToggle left<CR>', 'Open Aerial' },
-	j = { '<cmd>wincmd j<CR>', 'Switch Pane Down' },
-	k = { '<cmd>wincmd k<CR>', 'Switch Pane Up' },
-	l = { '<cmd>wincmd l<CR>', 'Switch Pane Right' },
-	n = { '<cmd>NeoTreeFocusToggle<CR>', 'NeoTree Toggle' },
-	q = { '<cmd>q<CR>', 'Quit' },
-	s = { '<cmd>Lazy sync<CR>', 'Lazy Sync' },
-	u = { '<cmd>UndotreeToggle<CR>', 'Undotree Toggle' },
-	v = { '<cmd>StartupTime<CR>', 'VimStartup Time' },
-	w = { '<cmd>w<CR>', 'Write' },
-	z = { '<cmd>luafile $MYVIMRC<CR>', 'Reload Neovim' },
-	a = {
-		name = 'Align',
-		l = { '<cmd>lua require"utility".align("left" ,false)<CR>', 'Align Left' },
-		L = { '<cmd>lua require"utility".align("left" ,true)<CR>', 'Align Gap Left' },
-		r = { '<cmd>lua require"utility".align("right",false)<CR>', 'Align Right' },
-		R = {
-			'<cmd>lua require"utility".align("right",true)<CR>',
-			'Align Gap Right'
-		},
-	},
-	b = {
-		name = 'Buffer',
-		c = { '<cmd>BufferClose<CR>', 'Close Buffer' },
-		d = { '<cmd>BufferDelete!<CR>', 'Delete Buffer' },
-		e = { '<cmd>lua vim.lsp.buf.declaration()<CR>', 'Buffer Declaration' },
-		h = { '<cmd>lua vim.lsp.buf.hover()<CR>', 'Hover' },
-		n = { '<cmd>BufferNext<CR>', 'Next Buffer' },
-		p = { '<cmd>BufferPrevious<CR>', 'Previous Buffer' },
-		s = { '<cmd>lua vim.lsp.buf.signature_help()<CR>', 'Signature Help' },
-		t = { '<cmd>lua vim.lsp.buf.type_definition()<CR>', 'Defintion' },
-		m = { name = 'Move',
-			n = { '<cmd>BufferMoveNext<CR>', 'Move Buffer Next' },
-			p = { '<cmd>BufferMovePrevious<CR>', 'Move Buffer Previous' },
-		},
-	},
-	c = {
-		name = 'Codium',
-		e = { '<cmd>CodeiumEnable<CR>', 'Enable Codeium' },
-		d = { '<cmd>CodeiumDisable<CR>', 'Disable Codeium' },
-	},
-	d = {
-		name = "Diagnostic",
-		a = { '<cmd>lua vim.lsp.buf.code_action()<CR>', 'Code Action' },
-		d = { '<cmd>DMsg<CR>', 'Get Diagnostic Error' },
-		f = { '<cmd>vim.diagnostic.open_float()<CR>', 'Float' },
-		i = { '<cmd>lua vim.lsp.buf.implementation()<CR>', 'Implementation' },
-		t = { '<cmd>lua vim.lsp.buf.type_definition()<CR>', 'Type' },
-	},
-	e = {
-		name = 'Telescope',
-		f = { '<cmd>Telescope find_files<CR>', 'Find Files' },
-		g = { '<cmd>Telescope live_grep<CR>', 'Live Grep' },
-		b = { '<cmd>Telescope buffers<CR>', 'List Buffers' },
-		h = { '<cmd>Telescope help_tags<CR>', 'Help Tags' },
-		c = { '<cmd>Telescope highlights<CR>', 'Highlight Groups' },
-	},
-	G = {
-		name = 'Games',
-		T = { '<cmd>lua require("typebreak").start()<CR>', 'Typebreak' }
-	},
-	H = {
-		name = 'Harpoon',
-		A = { '<cmd>lua require"harpoon.mark".add_file()<CR>', 'Add File' },
-		R = { '<cmd>lua require"harpoon.mark".rm_file()<CR>', 'Remove File' },
-		S = {
-			[[<cmd>lua
-			require"harpoon.mark".set_current_at(0 + vim.fn.input"Index: ")<CR>]],
-			'Set To Index'
-		},
-		G = {
-			string.gsub([[<cmd>lua
-				local co = coroutine.create(function()
-					require"harpoon.ui".nav_file(0 + vim.fn.input"⇀ ")
-				end)
-				require"harpoon.ui".toggle_quick_menu()
-				vim.schedule(function()
-					coroutine.resume(co)
-				end)
-				<CR>]], '\n', ' '),
-			'Go To Index'
-		},
-		N = { '<cmd>lua require"harpoon.ui".nav_next()<CR>', 'Next Mark' },
-		P = { '<cmd>lua require"harpoon.ui".nav_prev()<CR>', 'Previous Mark' },
-		M = { '<cmd>lua require"harpoon.ui".toggle_quick_menu()<CR>', 'Menu' },
-		T = { '<cmd>Telescope harpoon marks<CR>', 'Telescope Menu' },
-		L = { '<cmd>lua require"harpoon.term".gotoTerminal(1)<CR>', 'Terminal 1' },
-	},
-	I = {
-		name = 'Codeium',
-		['<C-g>'] = { '', 'Accept Completion' },
-		['<C-;>'] = { '', 'Cycle Forward' },
-		['<C-,>'] = { '', 'Cycle Backward' },
-		['<C-x>'] = { '', 'Clear Completion' },
-	},
-	L = {
-		name = 'LSP',
-		R = { '<cmd>LspRestart<CR>', 'Restart Lsp' },
-		S = { '<cmd>LspStart<CR>', 'Start Lsp' },
-		P = { '<cmd>LspStop<CR>', 'Stop Lsp' },
-		L = { '<cmd>LspLog<CR>', 'Lsp Log' },
-		I = { '<cmd>LspInfo<CR>', 'Lsp Info' },
-		M = { '<cmd>Mason<CR>', 'Mason' },
-		O = { '<cmd>MasonLog<CR>', 'Mason Log' },
-		U = { '<cmd>MasonUpdate<CR>', 'Mason Update' },
-	},
-	N = {
-		name = 'Luasnip',
-		E = {
-			'<cmd>lua require"luasnip.loaders".edit_snippet_files()<CR>',
-			'Edit Snippets'
-		},
-		O = {
-			'<cmd>e ' .. g.nvim_directory .. '/Luasnip/<CR>',
-			'Open Snippet Directory'
-		},
-	},
-	o = {
-		name = 'Open',
-		c = {
-			[[<cmd>lua require'telescope.builtin'.find_files({ ]] ..
-				[[cwd = '/Users/iMac/.config/BlackForest/', ]] ..
-				[[prompt_title = 'vimwiki' })<CR>]],
-			'Config'
-		},
-		a = {
-			'<cmd>e ' .. os.getenv 'HOME' .. '/.config/alacritty/alacritty.yml<CR>',
-			'Alacritty'
-		},
-		z = {
-			'<cmd>e ' .. os.getenv 'HOME' .. '/.zshrc<CR>',
-			'Open Zsh Config File'
-		},
-	},
-	t = {
-		name = 'Tabs',
-		l = { '<cmd>tabs<CR>', 'List Tabs' },
-		e = { '<cmd>tabnew<CR>', 'New Tab' },
-		n = { '<cmd>tabnext<CR>', 'Next Tab' },
-		p = { '<cmd>tabprevious<CR>', 'Previous Tab' },
-		s = { '<cmd>tabonly<CR>', 'Focus Tab' },
-		c = { '<cmd>tabclose<CR>', 'Close Tab' },
-	},
-	T = {
-		name = 'Tasks',
-		L = { '<cmd>!task long<CR>', 'List' },
-		A = {
-			'<cmd>lua vim.cmd("!task add " .. vim.fn.input"New Task: ")<CR>',
-			'Add'
-		},
-		D = {
-			[[<cmd>lua vim.cmd(]] ..
-				[["task delete" .. vim.fn.input"Delete Task Id: ]] ..
-				[[" .. " << echo ".. vim.fn.input"Confirm: ")<CR>']],
-			'Delete'
-		},
-		C = {
-			'<cmd>lua vim.cmd("task done" .. vim.fn.input"Complete Task Id: ")<CR>',
-			'Complete'
-		},
-		S = { '<cmd>lua vim.cmd"!task sync"<CR>', 'Sync' },
-	},
-	Z = {
-		name = 'Boop',
-		Z = { '<cmd>Boop<CR>', 'Open' },
-		T = {
-			name = 'To',
-			H = { '<cmd>BoopToHex<CR>', 'Hex' },
-			O = { '<cmd>BoopToOctal<CR>', 'Octal' },
-			E = { '<cmd>BoopToBase64<CR>', 'Base64' },
-			B = { '<cmd>BoopToBinary<CR>', 'Binary' },
-			S = { '<cmd>BoopToSHA256<CR>', 'SHA256' },
-		},
-		F = {
-			name = 'From',
-			H = { '<cmd>BoopToHex<CR>', 'Hex' },
-			O = { '<cmd>BoopToOctal<CR>', 'Octal' },
-			E = { '<cmd>BoopToBase64<CR>', 'Base64' },
-			B = { '<cmd>BoopToBinary<CR>', 'Binary' },
-		},
-		C = {
- 			name = 'Case',
-			C = { '<cmd>BoopCamelCase<CR>', 'Camel' },
-			K = { '<cmd>BoopKebabCase<CR>', 'Kebab' },
-			S = { '<cmd>BoopSnakeCase<CR>', 'Snake' },
-		}
-	}
+  L = { [[<cmd>Lazy sync<CR>]], 'Lazy Sync' },
+  V = { [[<cmd>StartupTime<CR>]], 'VimStartup Time' },
+  -- f = { function() vim.lsp.buf.format{ async = true } end, 'Format' },
+  q = { [[<cmd>q!<CR>]], 'Force Quit' },
+  w = { [[<cmd>w!<CR>]], 'Force Write' },
+  z = { [[<cmd>luafile $MYVIMRC<CR>]], 'Reload Neovim' },
+  a = {
+    name = 'Align',
+    L = { function() require("utility").align("left" , true)  end, 'Align Gap Left'  },
+    R = { function() require("utility").align("right", true)  end, 'Align Gap Right' },
+    l = { function() require("utility").align("left" , false) end, 'Align Left'      },
+    r = { function() require("utility").align("right", false) end, 'Align Right'     },
+  },
+  b = {
+    name = 'Buffer',
+    n = { [[<cmd>bnext<CR>]], 'Next' },
+    p = { [[<cmd>bprevious<CR>]], 'Previous' },
+    d = { [[<cmd>bnext | bd #<CR>]], 'Delete' },
+  },
+  c = {
+    name = 'Codium',
+    e = { [[<cmd>CodeiumEnable<CR>]], 'Enable Codeium' },
+    d = { [[<cmd>CodeiumDisable<CR>]], 'Disable Codeium' },
+  },
+  d = {
+    name = "Diagnostic",
+    a = { function() vim.lsp.buf.code_action() end, 'Code Action' },
+    c = { function() vim.lsp.buf.declaration() end, 'Declaration' },
+    d = { [[<cmd>DMsg<CR>]], 'Print Diagnostics' },
+    h = { function() vim.lsp.buf.hover() end, 'Hover' },
+    i = { function() vim.lsp.buf.implementation() end, 'Implementation' },
+    s = { function() vim.lsp.buf.signature_help() end, 'Signature Help' },
+    t = { function() vim.lsp.buf.type_definition() end, 'Type Defintion' },
+  },
+  e = {
+    name = 'Telescope',
+    a = { function() require("telescope.builtin").autocommands(ivy_picker) end, 'Autocommands'     },
+    b = { function() require("telescope.builtin").buffers(ivy_picker)      end, 'List Buffers'     },
+    c = { function() require("telescope.builtin").highlights(ivy_picker)   end, 'Highlight Groups' },
+    d = { function() require("telescope.builtin").diagnostics(ivy_picker)  end, 'List Diagnostics' },
+    e = { function() require("telescope.builtin").live_grep(ivy_picker)    end, 'Live Grep'        },
+    f = { function() require("telescope.builtin").find_files(ivy_picker)   end, 'Find Files'       },
+    g = {
+      name = 'Git',
+      b = { function() require("telescope.builtin").git_branches(ivy_picker) end, 'Branches' },
+      c = { function() require("telescope.builtin").git_commit(ivy_picker) end, 'Commit' },
+      f = { function() require("telescope.builtin").git_files(ivy_picker) end, 'Files' },
+      s = { function() require("telescope.builtin").git_status(ivy_picker) end, 'Status' },
+      t = { function() require("telescope.builtin").git_stash(ivy_picker) end, 'Stash' },
+    },
+    h = { function() require("telescope.builtin").help_tags(ivy_picker) end, 'Help Tags' },
+    j = { function() require("telescope.builtin").jumplist(ivy_picker) end, 'Jump List' },
+    k = { function() require("telescope.builtin").marks(ivy_picker) end, 'Marks' },
+    l = {
+      name = 'LSP',
+      d = { function() require("telescope.builtin").lsp_definitions(ivy_picker) end, 'Definitions' },
+      i = { function() require("telescope.builtin").lsp_implementations(ivy_picker) end, 'Implementations' },
+      r = { function() require("telescope.builtin").lsp_references(ivy_picker) end, 'References' },
+      s = { function() require("telescope.builtin").lsp_document_symbols(ivy_picker) end, 'Symbols' },
+      t = { function() require("telescope.builtin").lsp_type_definitions(ivy_picker) end, 'Type Definitions' },
+    },
+    m = { function() require("telescope.builtin").man_pages(ivy_picker) end, 'Man Pages' },
+  },
+  i = {
+    name = 'Codeium',
+    d = { [[<cmd>CodeiumDisable<CR>]], 'Disable Codeium' },
+    e = { [[<cmd>CodeiumEnable<CR>]], 'Enable Codeium' },
+    ['<C-g>'] = { '', 'Accept Completion' },
+    ['<C-;>'] = { '', 'Cycle Forward' },
+    ['<C-,>'] = { '', 'Cycle Backward' },
+    ['<C-x>'] = { '', 'Clear Completion' },
+  },
+  l = {
+    name = 'LSP',
+    r = { [[<cmd>LspRestart<CR>]], 'Restart Lsp' },
+    s = {
+      function()
+        local installed_servers = require("mason-lspconfig").get_installed_servers()
+        create_ivy_picker(installed_servers, { prompt_title = "Servers" })
+      end,
+      'Start Lsp'
+    },
+    i = { [[<cmd>LspInfo<CR>]], 'Lsp Info' },
+    l = { string.format([[<cmd>e %s/.local/state/nvim/lsp.log<CR>]], os.getenv('HOME')), 'Lsp Log' },
+    p = { [[<cmd>LspStop<CR>]], 'Stop Lsp' },
+    m = {
+      name = 'Mason',
+      l = { string.format([[<cmd>e %s/.local/state/nvim/mason.log<CR>]], os.getenv('HOME')), 'Mason Log' },
+      m = { [[<cmd>Mason<CR>]], 'Mason' },
+      u = { [[<cmd>MasonUpdate<CR>]], 'Mason Update' },
+    }
+  },
+  n = { [[<cmd>Neotree toggle reveal right<CR>]], 'NeoTree Toggle' },
+  f = { [[<cmd>Neotree focus<CR>]], 'NeoTree Toggle' },
+  N = {
+    name = 'Luasnip',
+    E = { function() require("luasnip.loaders").edit_snippet_files() end, 'Edit Snippets' },
+    O = { string.format([[e %s/Luasnip/]], vim.g.nvim_directory), 'Open Snippet Directory' },
+  },
+  o = {
+    name = 'Open Config',
+    a = { string.format([[<cmd>e %s/.config/alacritty/alacritty.toml<CR>]], os.getenv('HOME')), 'Alacritty' },
+    c = {
+      function()
+        local opts = { cwd = os.getenv('HOME') .. "/.config/BlackForest/", prompt_title = 'BlackForest' }
+        require('telescope.builtin').find_files(require('telescope.themes').get_ivy(opts))
+      end,
+      'BlackForest'
+    },
+    h = {
+      function()
+        local opts = { cwd = string.format([[%s/.scripts/chez/]], os.getenv('HOME')), prompt_title = 'Cherish Files' }
+        require('telescope.builtin').find_files(require('telescope.themes').get_ivy(opts))
+      end,
+      'Cherish Files'
+    },
+    s = {
+      function()
+        local opts = { cwd = '/Users/iMac/.scripts/', prompt_title = 'Script', hidden = true }
+        require('telescope.builtin').find_files(require('telescope.themes').get_ivy(opts))
+      end,
+      'Scripts'
+    },
+    t = {
+      string.format([[<cmd>e %s/.tmux.conf<CR>]], os.getenv('HOME')),
+      'Tmux'
+    },
+    z = {
+      function()
+        local opts = { cwd = '/Users/iMac/.config/zsh/', prompt_title = 'Zsh Dot Files', hidden = true }
+        require('telescope.builtin').find_files(require('telescope.themes').get_ivy(opts))
+      end,
+      'Zsh'
+    },
+  },
+  s = {
+    name = 'Surround',
+    a = { [[<cmd>SurroundAdd<CR>]], 'Add' },
+    d = { [[<cmd>SurroundDelete<CR>]], 'Delete' },
+  },
+  u = {
+    name = "UndoTree",
+    t = { [[<cmd>UndotreeToggle<CR>]], 'Undotree Toggle' },
+    f = { [[<cmd>UndotreeFocus<CR>]], 'Undotree Toggle' },
+  },
+  Z = {
+    name = 'Boop',
+    c = {
+       name = 'Case',
+      c = { [[<cmd>BoopCamelCase<CR>]], 'Camel' },
+      k = { [[<cmd>BoopKebabCase<CR>]], 'Kebab' },
+      s = { [[<cmd>BoopSnakeCase<CR>]], 'Snake' },
+    },
+    f = {
+      name = 'From',
+      b = { [[<cmd>BoopToBinary<CR>]], 'Binary' },
+      e = { [[<cmd>BoopToBase64<CR>]], 'Base64' },
+      h = { [[<cmd>BoopToHex<CR>]], 'Hex' },
+      o = { [[<cmd>BoopToOctal<CR>]], 'Octal' },
+    },
+    t = {
+      name = 'To',
+      b = { [[<cmd>BoopToBinary<CR>]], 'Binary' },
+      e = { [[<cmd>BoopToBase64<CR>]], 'Base64' },
+      h = { [[<cmd>BoopToHex<CR>]], 'Hex' },
+      o = { [[<cmd>BoopToOctal<CR>]], 'Octal' },
+      s = { [[<cmd>BoopToSHA256<CR>]], 'SHA256' },
+    },
+    z = { [[<cmd>Boop<CR>]], 'Open' },
+  }
 }, { prefix = '<leader>' })
 

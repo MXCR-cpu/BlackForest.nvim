@@ -1,4 +1,6 @@
-local grey_tone = {
+M = {}
+
+M.grey_tone = {
   "#000000",
   "#050505",
   "#0f0f0f",
@@ -29,25 +31,28 @@ local grey_tone = {
   "#fbfbfb",
   "#ffffff",
 }
-local temper_tone = {
+
+M.temper_tone = {
   '#2a363b',
   '#e84a5f',
   '#ff847c',
   '#feceab',
   '#99b898',
 }
-local sunset_tone = {
-  "#00202e",
-  "#003f5c",
-  "#2c4875",
-  "#8a508f",
-  "#bc5090",
-  "#ff6361",
-  "#ff8531",
-  "#ffa600",
-  "#ffd380",
+
+M.sunset_tone_v1 = {
+  "#00202E",
+  "#003f5C",
+  "#2C4875",
+  "#8A508F",
+  "#BC5090",
+  "#FF6361",
+  "#FF8531",
+  "#FFA600",
+  "#FFD380",
 }
-local sunset_tone_v2 = {
+
+M.sunset_tone_v2 = {
   { 198, 100, 9 },
   { 199, 100, 12 },
   { 217, 45, 24 },
@@ -58,30 +63,46 @@ local sunset_tone_v2 = {
   { 39, 100, 50 },
   { 39, 100, 75 },
 }
-local sunset_tone_v3 = {
+
+M.sunset_tone_v3 = {
   { 89, 1, 40 },
   { 90, 5, 30 },
 }
-local cherry_tone = {
-  "#261D1D",
-  "#131112",
-  "#1B2423",
-  "#362827",
-  "#26232C",
-  "#292D30",
-  "#33333C",
-  "#383F43",
-  "#4A3F3F",
-  "#4E535C",
-  "#B14433",
-  "#556163",
-  "#776461",
-  "#B86E3B",
-  "#B47575",
-  "#858B94",
-  "#BA9477",
-  "#8E9897",
-  "#CDBBBA",
+
+M.cherry_tone_v1 = {
+  "#110D0D",
+  "#201B1C",
+  "#322B2D",
+  "#433F42",
+  "#59595B",
+  "#7E7575",
+  "#8C4B37",
+  "#A89592",
+  "#C9B6B3",
+  "#E4D4D3",
 }
 
-vim.g.colors_shades = sunset_tone
+M.cherry_tone_v2 = {
+  "#18100F",
+  "#262426",
+  "#3E3B3E",
+  "#4A1B0F",
+  "#6C5D5D",
+  "#8A3422",
+  "#BB5C4D",
+  "#D28D88",
+  "#E0B4B6",
+  "#EBD2D4",
+}
+
+vim.g.colors_shades = M.cherry_tone_v1
+
+vim.fn.color_index = function(index)
+  return vim.g.colors_shades[
+    math.floor((index / 100) * (#vim.g.colors_shades - 1)) + 1
+  ]
+end
+
+return M
+
+
