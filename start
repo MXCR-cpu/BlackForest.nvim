@@ -1,8 +1,0 @@
-#!/bin/sh
-
-if [ -f $HOME/.config/nvim/init.lua ]; then
-	rm $HOME/.config/nvim/init.lua
-fi
-ln ./init.lua $HOME/.config/nvim/init.lua
-echo "export BLACK_FOREST=$(pwd)" >> ~/.zshrc
-

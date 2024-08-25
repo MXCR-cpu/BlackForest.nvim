@@ -1,62 +1,52 @@
-local cmd = vim.cmd
-local g = vim.g
-local o = vim.o
-local opt = vim.opt
-local wo = vim.wo
+vim.g.mapleader                     = " "
+vim.o.mouse                         = "a"
+vim.opt.autoindent                  = false
+vim.opt.background                  = "dark"
+vim.opt.breakindent                 = true
+vim.opt.breakindentopt              = { shift = 2, min = 40, column = 80 }
+vim.opt.clipboard                   = "unnamedplus"
+vim.opt.cursorline                  = true
+vim.opt.expandtab                   = true
+vim.opt.foldlevel                   = 99
+vim.opt.guicursor                   = "n-v-c-sm-i-ci-ve-r-cr-o:block"
+vim.opt.ignorecase                  = true
+vim.opt.incsearch                   = true
+vim.opt.linebreak                   = true
+vim.opt.shiftwidth                  = 2
+vim.opt.showbreak                   = "+ "
+vim.opt.smartindent                 = false
+vim.opt.smarttab                    = false
+vim.opt.spell                       = false
+vim.opt.spelllang                   = "en_us"
+vim.opt.tabstop                     = 2
+vim.opt.termguicolors               = true
+vim.opt.wrap                        = false
+vim.wo.number                       = true
+vim.wo.relativenumber               = true
+vim.g.nvim_directory                = vim.env.HOME .. "/.config/BlackForest"
+vim.g.init_directory                = vim.env.HOME .. "/.config/BlackForest/lua"
+vim.g.function_directory            = vim.env.HOME .. "/.config/BlackForest/lua/functions"
+vim.g.plugin_directory              = vim.env.HOME .. "/.config/BlackForest/lua/plugin"
+vim.g.active_colorscheme            = "marri"
+vim.g.vim_markdown_toc_autofit      = 1
+vim.g.vim_markdown_math             = 1
+vim.g.vim_markdown_frontmatter      = 1
+vim.g.vim_markdown_toml_frontmatter = 1
 
-g.mapleader = " "
-o.mouse = "a"
-opt.autoindent = true
-opt.breakindent = true
-opt.breakindentopt = { shift = 2, min = 40 }
-opt.cursorline = true
-opt.expandtab = true
-opt.guicursor = "n-v-c-sm-i-ci-ve-r-cr-o:block"
-opt.ignorecase = true
-opt.incsearch = true
-opt.linebreak = true
-opt.shiftwidth = 2
-opt.showbreak = "+ "
-opt.smartindent = true
-opt.smartindent = true
-opt.spell = true
-opt.spelllang = "en_us"
-opt.tabstop = 2
-opt.termguicolors = true
-opt.wrap = true
+package.path = string.format(
+  "%s;%s/?.lua",
+  package.path,
+  vim.g.function_directory
+)
 
-wo.number = true
-wo.relativenumber = true
+dofile(vim.g.init_directory .. "/rock.lua")
+dofile(vim.g.init_directory .. "/color_groups.lua")
 
-g.nvim_directory = os.getenv "HOME" .. "/.config/BlackForest"
-cmd [[set background=dark]]
-cmd [[set clipboard+=unnamedplus]]
+-- dofile(vim.g.init_directory .. "/commands.lua")
+-- dofile(vim.g.init_directory .. "/autocmds.lua")
+-- dofile(vim.g.init_directory .. "/parsers.lua")
+-- dofile(vim.g.init_directory .. "/utility.lua")
 
-package.path = g.nvim_directory .. '/inits/?.lua;' .. package.path
+-- dofile(vim.fs.joinpath(vim.g.init_directory, "notes_telescope.lua"))
 
-local init_files = {
-  "/color_palettes.lua",
-  "/commands.lua",
-  "/neovide.lua",
-  "/plugin_lazy.lua",
-  "/notes_telescope.lua",
-  "/utility.lua",
-  "/autocmds.lua",
-  "/parsers.lua",
-  "/color_functions.lua",
-  "/color_groups.lua",
-  "/mappings.lua",
-}
-for _, file in ipairs(init_files) do
-  local file_path = g.nvim_directory .. "/inits" .. file
-  dofile(file_path)
-end
-
-g.vim_markdown_toc_autofit = 1
-g.vim_markdown_math = 1
-g.vim_markdown_frontmatter = 1
-g.vim_markdown_toml_frontmatter = 1
-
-opt.shiftwidth = 2
-
-vim.cmd("CodeiumDisable")
+-- vim.cmd("CodeiumDisable")

@@ -1,0 +1,5 @@
+ hyperfine "nvim --headless +qa"                                                                                                                                                                                                                        (docker-desktop) (BlackForest) 23:39:20
+Benchmark 1: nvim --headless +qa
+  Time (mean ± σ):     364.1 ms ±   6.1 ms    [User: 211.9 ms, System: 117.2 ms]
+  Range (min … max):   354.8 ms … 376.3 ms    10 runs
+

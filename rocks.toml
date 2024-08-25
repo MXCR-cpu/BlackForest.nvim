@@ -1,0 +1,169 @@
+# This is your rocks.nvim plugins declaration file.
+# Here is a small yet pretty detailed example on how to use it:
+#
+# [plugins]
+# nvim-treesitter = "semver_version"  # e.g. "1.0.0"
+
+# List of non-Neovim rocks.
+# This includes things like `toml` or other lua packages.
+[rocks]
+toml-edit = "0.4.1"
+checks = "1.0"
+
+# List of Neovim plugins to install alongside their versions.
+# If the plugin name contains a dot then you must add quotes to the key name!
+[plugins]
+"rocks.nvim" = "2.36.1"
+"rocks-config.nvim" = "2.2.0"
+"rocks-treesitter.nvim" = "1.0.3"
+"mason.nvim" = "1.10.0"
+"mason-lspconfig.nvim" = "1.29.0"
+nvim-lspconfig = "0.1.8"
+"neo-tree.nvim" = "3.26"
+tree-sitter-yaml = "0.0.1"
+tree-sitter-dockerfile = "0.0.2"
+tree-sitter-clojure = "0.0.2"
+tree-sitter-java = "0.0.2"
+tree-sitter-gitignore = "0.0.2"
+tree-sitter-tmux = "0.0.3"
+"rocks-git.nvim" = "2.0.1"
+tree-sitter-toml = "0.0.2"
+tree-sitter-sql = "0.0.3"
+tree-sitter-fish = "0.0.2"
+tree-sitter-elixir = "0.0.2"
+tree-sitter-cpp = "0.0.3"
+tree-sitter-cmake = "0.0.2"
+tree-sitter-rust = "0.0.3"
+tree-sitter-bash = "0.0.2"
+tree-sitter-html = "0.0.3"
+
+[plugins.nvim-cmp]
+name = "nvim-cmp"
+git = "hrsh7th/nvim-cmp"
+config = "plugin.completion"
+
+[plugins.cmp-nvim-lsp]
+name = "cmp-nvim-lsp"
+git = "hrsh7th/cmp-nvim-lsp"
+
+[plugins.undotree]
+name = "undotree"
+git = "mbbill/undotree"
+opt = true
+
+[plugins."mini.icons"]
+name = "mini.icons"
+git = "echasnovski/mini.icons"
+config = "plugin.icons"
+
+# [plugins.luasnip]
+# version = "2.3.0"
+# keys = "<leader>N"
+# config = "plugin.luasnip"
+
+[plugins."telescope.nvim"]
+version = "scm"
+config = "plugin.telescope"
+
+[plugins."lualine.nvim"]
+version = "scm"
+config = "plugin.lualine"
+
+[plugins."which-key.nvim"]
+version = "3.13.2"
+config = "plugin.which-key"
+
+[plugins."indent-blankline.nvim"]
+version = "3.7.1"
+config = "plugin.indent-blankline"
+
+[plugins."fidget.nvim"]
+version = "1.4.1"
+config = "plugin.fidget"
+
+[bundles.lsp]
+items = [
+  "mason.nvim",
+  "mason-lspconfig.nvim",
+  "nvim-lspconfig",
+  "cmp-nvim-lsp",
+]
+config = "bundles.mason"
+
+[config]
+plugin_dir = "plugin/"
+auto_setup = true
+
+[treesitter]
+auto_highlight = [
+  "awk",
+  "bash",
+  "c",
+  "clojure",
+  "comment",
+  "cmake",
+  "cpp",
+  "disassembly",
+  "dockerfile",
+  "doxygen",
+  "editorconfig",
+  "elixir",
+  "elm",
+  "erlang",
+  "fish",
+  "git_config",
+  "git_rebase",
+  "git_rebase",
+  "gitattributes",
+  "gitcommit",
+  "gitignore",
+  "gnuplot",
+  "go",
+  "gpg",
+  "haskell",
+  "html",
+  "html_tags",
+  "http",
+  "ini",
+  "java",
+  "javascript",
+  "jq",
+  "json",
+  "julia",
+  "latex",
+  "lua",
+  "luadoc",
+  "make",
+  "markdown",
+  "markdown_inline",
+  "matlab",
+  "norg",
+  "norg-meta",
+  "ocaml",
+  "perl",
+  "php",
+  "powershell",
+  "pug",
+  "r",
+  "regex",
+  "requirements",
+  "ruby",
+  "rust",
+  "scala",
+  "scheme",
+  "sql",
+  "ssh_config",
+  "swift",
+  "tmux",
+  "toml",
+  "typescript",
+  "verilog",
+  "xml",
+  "yaml",
+  "zig"
+]
+auto_install = true
+
+[treesitter.parser_map]
+
+
