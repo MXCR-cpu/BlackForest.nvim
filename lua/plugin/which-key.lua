@@ -188,6 +188,7 @@ wk.add({
   { "<leader>r", require("telescope.builtin").live_grep, desc = "Live Grep" },
   { "<leader>f", require("telescope.builtin").fd, desc = "Find Files" },
   { "<leader>g", group = "Git" },
+  { "<leader>gn", "<cmd>Neogit<CR>", desc = "Neogit" },
   { "<leader>gb", neogit_open("branch"), desc = "Branches" },
   { "<leader>gc", neogit_open("commit"), desc = "Commit" },
   { "<leader>gd", neogit_open("diff"), desc = "Diff" },
