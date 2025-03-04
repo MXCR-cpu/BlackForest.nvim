@@ -25,6 +25,7 @@ vim.wo.number                       = true
 vim.wo.relativenumber               = true
 vim.g.nvim_directory                = vim.env.HOME .. "/.config/BlackForest"
 vim.g.init_directory                = vim.env.HOME .. "/.config/BlackForest/lua"
+vim.g.inits_directory               = vim.env.HOME .. "/.config/BlackForest/inits"
 vim.g.function_directory            = vim.env.HOME .. "/.config/BlackForest/lua/functions"
 vim.g.plugin_directory              = vim.env.HOME .. "/.config/BlackForest/lua/plugin"
 vim.g.active_colorscheme            = "marri"
@@ -39,8 +40,12 @@ package.path = string.format(
   vim.g.function_directory
 )
 
-dofile(vim.g.init_directory .. "/rock.lua")
-dofile(vim.g.init_directory .. "/color_groups.lua")
+require("config.lazy")
+require("color_groups")
+
+-- dofile(vim.g.inits_directory .. "/plugin_lazy.lua")
+-- dofile(vim.g.init_directory .. "/rock.lua")
+-- dofile(vim.g.init_directory .. "/color_groups.lua")
 
 -- dofile(vim.g.init_directory .. "/commands.lua")
 -- dofile(vim.g.init_directory .. "/autocmds.lua")

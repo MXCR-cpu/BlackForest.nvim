@@ -146,48 +146,12 @@ wk.add({
   { "<leader>ce", "<cmd>CodeiumEnable<CR>", desc = "Enable Codeium" },
   { "<leader>d", group = "Diagnostic" },
   { "<leader>dd", "<cmd>DMsg<CR>", desc = "Print Diagnostics" },
-  {
-    "<leader>da",
-    function()
-      vim.lsp.buf.code_action()
-    end,
-    desc = "Code Action",
-  },
-  {
-    "<leader>dc",
-    function()
-      vim.lsp.buf.declaration()
-    end,
-    desc = "Declaration",
-  },
-  {
-    "<leader>dh",
-    function()
-      vim.lsp.buf.hover()
-    end,
-    desc = "Hover",
-  },
-  {
-    "<leader>di",
-    function()
-      vim.lsp.buf.implementation()
-    end,
-    desc = "Implementation",
-  },
-  {
-    "<leader>ds",
-    function()
-      vim.lsp.buf.signature_help()
-    end,
-    desc = "Signature Help",
-  },
-  {
-    "<leader>dt",
-    function()
-      vim.lsp.buf.type_definition()
-    end,
-    desc = "Type Defintion",
-  },
+  { "<leader>da", vim.lsp.buf.code_action, desc = "Code Action" },
+  { "<leader>dc", vim.lsp.buf.declaration, desc = "Declaration" },
+  { "<leader>dh", vim.lsp.buf.hover, desc = "Hover" },
+  { "<leader>di", vim.lsp.buf.implementation, desc = "Implementation" },
+  { "<leader>ds", vim.lsp.buf.signature_help, desc = "Signature Help" },
+  { "<leader>dt", vim.lsp.buf.type_definition, desc = "Type Defintion" },
   { "<leader>e", group = "Telescope" },
   {
     "<leader>ea",
@@ -238,43 +202,43 @@ wk.add({
     desc = "Live Grep",
   },
   {
-    "<leader>ef",
+    "<leader>f",
     function()
       require("telescope.builtin").fd(ivy_picker())
     end,
     desc = "Find Files",
   },
-  { "<leader>eg", group = "Git" },
+  { "<leader>g", group = "Git" },
   {
-    "<leader>egb",
+    "<leader>gb",
     function()
       require("telescope.builtin").git_branches(ivy_picker())
     end,
     desc = "Branches",
   },
   {
-    "<leader>egc",
+    "<leader>gc",
     function()
       require("telescope.builtin").git_commit(ivy_picker())
     end,
     desc = "Commit",
   },
   {
-    "<leader>egf",
+    "<leader>gf",
     function()
       require("telescope.builtin").git_files(ivy_picker())
     end,
     desc = "Files",
   },
   {
-    "<leader>egs",
+    "<leader>gs",
     function()
       require("telescope.builtin").git_status(ivy_picker())
     end,
     desc = "Status",
   },
   {
-    "<leader>egt",
+    "<leader>gt",
     function()
       require("telescope.builtin").git_stash(ivy_picker())
     end,
@@ -344,7 +308,7 @@ wk.add({
     end,
     desc = "Man Pages",
   },
-  { "<leader>f", "<cmd>Neotree focus<CR>", desc = "NeoTree Toggle" },
+  -- { "<leader>f", "<cmd>Neotree focus<CR>", desc = "NeoTree Toggle" },
   -- { "<leader>i", group = "Codeium" },
   -- { "<leader>i<C-,>", "", desc = "Cycle Backward" },
   -- { "<leader>i<C-;>", "", desc = "Cycle Forward" },
@@ -419,9 +383,7 @@ wk.add({
   { "<leader>s", group = "Surround" },
   { "<leader>sa", "<cmd>SurroundAdd<CR>", desc = "Add" },
   { "<leader>sd", "<cmd>SurroundDelete<CR>", desc = "Delete" },
-  { "<leader>u", group = "UndoTree" },
-  { "<leader>uf", "<cmd>UndotreeFocus<CR>", desc = "Undotree Focus" },
-  { "<leader>ut", "<cmd>UndotreeToggle<CR>", desc = "Undotree Toggle" },
+  { "<leader>u", "<cmd>UndotreeToggle<CR>", desc="Undotree" },
   { "<leader>w", "<cmd>w!<CR>", desc = "Force Write" },
   { "<leader>z", "<cmd>Zoxide<CR>", desc = "Zoxide" },
 })
