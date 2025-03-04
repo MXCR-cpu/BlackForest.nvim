@@ -3,7 +3,9 @@ local loop = vim.loop
 local o = vim.o
 local opt = vim.opt
 local g = vim.g
+
 package.path = g.nvim_directory .. "/?.lua;" .. package.path
+
 local lazypath = fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not loop.fs_stat(lazypath) then
   fn.system({
@@ -221,7 +223,7 @@ require("lazy").setup({
     "kristijanhusak/vim-dadbod-ui",
     dependencies = {
       { "tpope/vim-dadbod", lazy = true },
-      { 
+      {
         "kristijanhusak/vim-dadbod-completion",
         ft = { "sql", "mysql", "plsql" },
         lazy = true

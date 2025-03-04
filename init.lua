@@ -14,6 +14,7 @@ vim.opt.incsearch                   = true
 vim.opt.linebreak                   = true
 vim.opt.shiftwidth                  = 2
 vim.opt.showbreak                   = "+ "
+vim.opt.showtabline                 = 0
 vim.opt.smartindent                 = false
 vim.opt.smarttab                    = false
 vim.opt.spell                       = false
@@ -34,14 +35,11 @@ vim.g.vim_markdown_math             = 1
 vim.g.vim_markdown_frontmatter      = 1
 vim.g.vim_markdown_toml_frontmatter = 1
 
-package.path = string.format(
-  "%s;%s/?.lua",
-  package.path,
-  vim.g.function_directory
-)
+package.path = string.format("%s;%s/?.lua", package.path, vim.g.function_directory)
 
 require("config.lazy")
 require("color_groups")
+require("bundles.mason")
 
 -- dofile(vim.g.inits_directory .. "/plugin_lazy.lua")
 -- dofile(vim.g.init_directory .. "/rock.lua")

@@ -29,6 +29,7 @@ local grey_tone = {
   "#fbfbfb",
   "#ffffff",
 }
+
 local temper_tone = {
   '#2a363b',
   '#e84a5f',
@@ -36,6 +37,7 @@ local temper_tone = {
   '#feceab',
   '#99b898',
 }
+
 local sunset_tone = {
   "#00202e",
   "#003f5c",
@@ -47,6 +49,7 @@ local sunset_tone = {
   "#ffa600",
   "#ffd380",
 }
+
 local sunset_tone_v2 = {
   { 198, 100, 9 },
   { 199, 100, 12 },
@@ -58,10 +61,12 @@ local sunset_tone_v2 = {
   { 39, 100, 50 },
   { 39, 100, 75 },
 }
+
 local sunset_tone_v3 = {
   { 89, 1, 40 },
   { 90, 5, 30 },
 }
+
 local cherry_tone = {
   "#261D1D",
   "#131112",

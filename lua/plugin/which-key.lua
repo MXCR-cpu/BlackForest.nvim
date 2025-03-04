@@ -29,6 +29,23 @@ local function lsp_server_picker()
   ):find()
 end
 
+
+---@param aspect string
+---@param opts table
+local function telescope_builtin(aspect, opts)
+  return function()
+    require("telescope.builtin")[aspect](opts)
+  end
+end
+
+---@param aspect string
+local function neogit_open(aspect)
+  return function()
+    require("neogit").open({ aspect })
+  end
+end
+
+
 wk.setup({
   icons = {
     breadcrumb = "»", -- symbol used in the command line area that shows your active key combo
@@ -80,16 +97,9 @@ wk.setup({
 })
 
 wk.add({
-  -- { "<leader>L", "<cmd>Lazy sync<CR>", desc = "Lazy Sync" },
-  { "<leader>N", group = "Luasnip" },
-  {
-    "<leader>NE",
-    function()
-      require("luasnip.loaders").edit_snippet_files()
-    end,
-    desc = "Edit Snippets",
-  },
-  { "<leader>NO", "<cmd>e /Users/iMac/.config/BlackForest/Luasnip/<CR>", desc = "Open Snippet Directory" },
+  -- { "<leader>N", group = "Luasnip" },
+  -- { "<leader>NE", require("luasnip.loaders").edit_snippet_files, desc = "Edit Snippets" },
+  -- { "<leader>NO", "<cmd>e /Users/iMac/.config/BlackForest/Luasnip/<CR>", desc = "Open Snippet Directory" },
   -- { "<leader>V", "<cmd>StartupTime<CR>", desc = "VimStartup Time" },
   { "<leader>Z", group = "Boop" },
   { "<leader>Zc", group = "Case" },
@@ -145,7 +155,6 @@ wk.add({
   { "<leader>cd", "<cmd>CodeiumDisable<CR>", desc = "Disable Codeium" },
   { "<leader>ce", "<cmd>CodeiumEnable<CR>", desc = "Enable Codeium" },
   { "<leader>d", group = "Diagnostic" },
-  { "<leader>dd", "<cmd>DMsg<CR>", desc = "Print Diagnostics" },
   { "<leader>da", vim.lsp.buf.code_action, desc = "Code Action" },
   { "<leader>dc", vim.lsp.buf.declaration, desc = "Declaration" },
   { "<leader>dh", vim.lsp.buf.hover, desc = "Hover" },
@@ -153,29 +162,11 @@ wk.add({
   { "<leader>ds", vim.lsp.buf.signature_help, desc = "Signature Help" },
   { "<leader>dt", vim.lsp.buf.type_definition, desc = "Type Defintion" },
   { "<leader>e", group = "Telescope" },
+  { "<leader>ea", telescope_builtin("autocommands", {}), desc = "Autocommands" },
+  { "<leader>bl", telescope_builtin("buffers", {}), desc = "List Buffers" },
+  { "<leader>ec", require("telescope.builtin").highlights, desc = "Highlight Groups" },
   {
-    "<leader>ea",
-    function()
-      require("telescope.builtin").autocommands(ivy_picker())
-    end,
-    desc = "Autocommands",
-  },
-  {
-    "<leader>eb",
-    function()
-      require("telescope.builtin").buffers(ivy_picker())
-    end,
-    desc = "List Buffers",
-  },
-  {
-    "<leader>ec",
-    function()
-      require("telescope.builtin").highlights(ivy_picker())
-    end,
-    desc = "Highlight Groups",
-  },
-  {
-    "<leader>ed",
+    "<leader>dd",
     function()
       require("telescope.builtin").diagnostics(ivy_picker({
         bufnr = 0,
@@ -194,120 +185,24 @@ wk.add({
     end,
     desc = "List Diagnostics",
   },
-  {
-    "<leader>ee",
-    function()
-      require("telescope.builtin").live_grep(ivy_picker())
-    end,
-    desc = "Live Grep",
-  },
-  {
-    "<leader>f",
-    function()
-      require("telescope.builtin").fd(ivy_picker())
-    end,
-    desc = "Find Files",
-  },
+  { "<leader>r", require("telescope.builtin").live_grep, desc = "Live Grep" },
+  { "<leader>f", require("telescope.builtin").fd, desc = "Find Files" },
   { "<leader>g", group = "Git" },
-  {
-    "<leader>gb",
-    function()
-      require("telescope.builtin").git_branches(ivy_picker())
-    end,
-    desc = "Branches",
-  },
-  {
-    "<leader>gc",
-    function()
-      require("telescope.builtin").git_commit(ivy_picker())
-    end,
-    desc = "Commit",
-  },
-  {
-    "<leader>gf",
-    function()
-      require("telescope.builtin").git_files(ivy_picker())
-    end,
-    desc = "Files",
-  },
-  {
-    "<leader>gs",
-    function()
-      require("telescope.builtin").git_status(ivy_picker())
-    end,
-    desc = "Status",
-  },
-  {
-    "<leader>gt",
-    function()
-      require("telescope.builtin").git_stash(ivy_picker())
-    end,
-    desc = "Stash",
-  },
-  {
-    "<leader>eh",
-    function()
-      require("telescope.builtin").help_tags(ivy_picker())
-    end,
-    desc = "Help Tags",
-  },
-  {
-    "<leader>ej",
-    function()
-      require("telescope.builtin").jumplist(ivy_picker())
-    end,
-    desc = "Jump List",
-  },
-  {
-    "<leader>ek",
-    function()
-      require("telescope.builtin").marks(ivy_picker())
-    end,
-    desc = "Marks",
-  },
+  { "<leader>gb", neogit_open("branch"), desc = "Branches" },
+  { "<leader>gc", neogit_open("commit"), desc = "Commit" },
+  { "<leader>gd", neogit_open("diff"), desc = "Diff" },
+  { "<leader>gf", neogit_open("fetch"), desc = "Fetch" },
+  { "<leader>gl", neogit_open("log"), desc = "Log" },
+  { "<leader>gr", neogit_open("cherry_pick"), desc = "Cherry Pick" },
+  { "<leader>gt", neogit_open("stash"), desc = "Stash" },
+  { "<leader>ge", neogit_open("bisect"), desc = "Bisect" },
+  { "<leader>gw", neogit_open("worktree"), desc = "Worktree" },
+  { "<leader>gs", telescope_builtin("git_status", {}), desc = "Status" },
+  { "<leader>eh", telescope_builtin("help_tags", {}), desc = "Help Tags" },
+  { "<leader>ej", telescope_builtin("jumplist", {}), desc = "Jump List" },
+  { "<leader>ek", telescope_builtin("marks", {}), desc = "Marks" },
   { "<leader>el", group = "LSP" },
-  {
-    "<leader>eld",
-    function()
-      require("telescope.builtin").lsp_definitions(ivy_picker())
-    end,
-    desc = "Definitions",
-  },
-  {
-    "<leader>eli",
-    function()
-      require("telescope.builtin").lsp_implementations(ivy_picker())
-    end,
-    desc = "Implementations",
-  },
-  {
-    "<leader>elr",
-    function()
-      require("telescope.builtin").lsp_references(ivy_picker())
-    end,
-    desc = "References",
-  },
-  {
-    "<leader>els",
-    function()
-      require("telescope.builtin").lsp_document_symbols(ivy_picker())
-    end,
-    desc = "Symbols",
-  },
-  {
-    "<leader>elt",
-    function()
-      require("telescope.builtin").lsp_type_definitions(ivy_picker())
-    end,
-    desc = "Type Definitions",
-  },
-  {
-    "<leader>em",
-    function()
-      require("telescope.builtin").man_pages()
-    end,
-    desc = "Man Pages",
-  },
+  { "<leader>em", telescope_builtin("man_pages", {}), desc = "Man Pages" },
   -- { "<leader>f", "<cmd>Neotree focus<CR>", desc = "NeoTree Toggle" },
   -- { "<leader>i", group = "Codeium" },
   -- { "<leader>i<C-,>", "", desc = "Cycle Backward" },
@@ -326,56 +221,49 @@ wk.add({
   { "<leader>lmu", "<cmd>MasonUpdate<CR>", desc = "Mason Update" },
   { "<leader>lp", "<cmd>LspStop<CR>", desc = "Stop Lsp" },
   { "<leader>lr", "<cmd>LspRestart<CR>", desc = "Restart Lsp" },
-  { "<leader>ls", lsp_server_picker, desc = "Start Lsp" },
+  { "<leader>ls", lsp_server_picker, desc = "Start Lsp" }, 
+  { "<leader>ld", telescope_builtin("lsp_definitions", {}), desc = "Definitions" },
+  { "<leader>li", telescope_builtin("lsp_implementations", {}), desc = "Implementations" },
+  { "<leader>lf", telescope_builtin("lsp_references", {}), desc = "References" },
+  { "<leader>ly", telescope_builtin("lsp_document_symbols", {}), desc = "Symbols" },
+  { "<leader>lt", telescope_builtin("lsp_type_definitions", {}), desc = "Type Definitions" },
   { "<leader>n", "<cmd>Neotree toggle reveal right<CR>", desc = "NeoTree Toggle" },
   { "<leader>o", group = "Open" },
   { "<leader>oa", "<cmd>e /Users/iMac/.config/alacritty/alacritty.toml<CR>", desc = "Alacritty" },
   {
-    "<leader>oc",
-    function()
-      local opts = {
+      "<leader>oc",
+      telescope_builtin("find_files", ivy_picker({
         cwd = vim.fs.joinpath(vim.env.HOME, ".config", "BlackForest"),
         prompt_title = "BlackForest",
-      }
-      require("telescope.builtin").find_files(ivy_picker(opts))
-    end,
-    desc = "BlackForest",
+      })),
+      desc = "BlackForest",
   },
   {
     "<leader>of",
-    function()
-      local opts = {
+    telescope_builtin("themes", ivy_picker({
         cwd = vim.fs.joinpath(vim.env.HOME, ".config", "fish"),
         prompt_title = "Fish Files",
         hidden = true,
-      }
-      require("telescope.builtin").find_files(require("telescope.themes").get_ivy(opts))
-    end,
+      })),
     desc = "Fish",
   },
   {
     "<leader>os",
-    function()
-      local opts = {
-        cwd = vim.fs.joinpath(vim.env.HOME, ".scripts"),
-        prompt_title = "Scripts",
+    telescope_builtin("themes", ivy_picker({
+        cwd = vim.fs.joinpath(vim.env.HOME, ".config", "fish"),
+        prompt_title = "Fish Files",
         hidden = true,
-      }
-      require("telescope.builtin").find_files(require("telescope.themes").get_ivy(opts))
-    end,
+      })),
     desc = "Scripts",
   },
   { "<leader>ot", "<cmd>e /Users/iMac/.tmux.conf<CR>", desc = "Tmux" },
   {
     "<leader>oz",
-    function()
-      local opts = {
+    telescope_builtin("find_files", ivy_picker({
         cwd = vim.env.HOME .. "/.config/zsh/",
         prompt_title = "Zsh Files",
         hidden = true
-      }
-      require("telescope.builtin").find_files(ivy_picker(opts))
-    end,
+      })),
     desc = "Zsh",
   },
   { "<leader>q", group = "Force Quit?" },
