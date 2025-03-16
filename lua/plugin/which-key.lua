@@ -187,6 +187,7 @@ wk.add({
   },
   { "<leader>r", require("telescope.builtin").live_grep, desc = "Live Grep" },
   { "<leader>f", require("telescope.builtin").fd, desc = "Find Files" },
+  { "<leader>G", "<cmd>FloatermNew --height=0.8 --width=0.8 --wintype=float --name=git --position=center --autoclose=2 lazygit<CR>", desc="Lazy Git" },
   { "<leader>g", group = "Git" },
   { "<leader>gn", "<cmd>Neogit<CR>", desc = "Neogit" },
   { "<leader>gb", neogit_open("branch"), desc = "Branches" },

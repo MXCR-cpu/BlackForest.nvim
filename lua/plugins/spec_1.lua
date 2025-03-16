@@ -42,6 +42,7 @@ return {
 	'nvim-treesitter/nvim-treesitter',
 	'nvim-treesitter/playground',
 	'sQVe/sort.nvim',
+  'voldikss/vim-floaterm',
 	-- {
 	-- 	'saadparwaiz1/cmp_luasnip',
 	-- 	init = function()

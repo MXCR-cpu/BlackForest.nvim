@@ -40,6 +40,7 @@ package.path = string.format("%s;%s/?.lua", package.path, vim.g.function_directo
 require("config.lazy")
 require("color_groups")
 require("bundles.mason")
+require("inits.commands")
 
 -- dofile(vim.g.inits_directory .. "/plugin_lazy.lua")
 -- dofile(vim.g.init_directory .. "/rock.lua")

@@ -7,7 +7,7 @@ return {
       "nvim-telescope/telescope.nvim", -- optional
     },
     config = true,
-    lazy = true
+    opts = {}
   },
   {
     "lewis6991/gitsigns.nvim",
