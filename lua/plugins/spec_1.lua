@@ -43,14 +43,47 @@ return {
 	'nvim-treesitter/playground',
 	'sQVe/sort.nvim',
   'voldikss/vim-floaterm',
-	-- {
-	-- 	'saadparwaiz1/cmp_luasnip',
-	-- 	init = function()
-	-- 	end
-	-- },
-	-- 'tpope/vim-fugitive',
-	-- { 'windwp/nvim-autopairs' },
-
+  {
+    'startup-nvim/startup.nvim',
+    dependencies = {
+      'nvim-telescope/telescope.nvim',
+      'nvim-lua/plenary.nvim',
+      'nvim-telescope/telescope-file-browser.nvim'
+    },
+    config = function()
+      require("startup").setup({
+        section_1 = {
+          type = "text",
+          align = "center",
+          content = require("plugin.start_images").text2,
+          highlight = "",
+          default_color = "#FF0000",
+        },
+        section_2 = {
+          type = "text",
+          align = "center",
+          content = {"MXCR_cpu"},
+          highlight = "",
+          default_color = "#FF0000",
+        },
+        section_3 = {
+          type = "text",
+          align = "center",
+          content = function()
+              local clock = " " .. os.date "%H:%M"
+              local date = " " .. os.date "%d-%m-%y"
+              return {clock,date}
+          end,
+          highlight = "",
+          default_color = "#FF0000",
+        },
+        parts = {"section_1", "section_2", "section_3"},
+        colors = {
+          background = "#000000",
+        }
+      })
+    end
+  },
 	{
 		'nvim-neo-tree/neo-tree.nvim',
 		branch = 'v2.x',
@@ -76,12 +109,4 @@ return {
 		'nvim-lualine/lualine.nvim',
     opts = require("plugin.lualine")
 	},
-	-- {
-	-- 	'xbase-lab/xbase',
-	-- 	dependencies = {
-	-- 		'neovim/nvim-lspconfig',
-	-- 		'nvim-telescope/telescope.nvim',
-	-- 		'nvim-lua/plenary.nvim',
-	-- 	},
-	-- }
 }

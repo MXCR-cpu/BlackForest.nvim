@@ -3,10 +3,10 @@
 -- Credit: glepnir
 
 local colors = {
-  inactive_bg = '#222222',
-  active_bg   = '#CCCCCC',
-  inactive_fg = '#CCCCCC',
-  active_fg   = '#222222',
+  inactive_bg = '#000000',
+  active_bg   = '#000000',
+  inactive_fg = '#E4007C',
+  active_fg   = '#FF0000',
   yellow      = '#edfc1b',
   cyan        = '#008080',
   darkblue    = '#081633',
