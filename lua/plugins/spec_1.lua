@@ -50,8 +50,7 @@ return {
       'nvim-lua/plenary.nvim',
       'nvim-telescope/telescope-file-browser.nvim'
     },
-    config = function()
-      require("startup").setup({
+    opts = {
         section_1 = {
           type = "text",
           align = "center",
@@ -78,11 +77,8 @@ return {
           default_color = "#FF0000",
         },
         parts = {"section_1", "section_2", "section_3"},
-        colors = {
-          background = "#000000",
-        }
-      })
-    end
+        colors = { background = "none" }
+      }
   },
 	{
 		'nvim-neo-tree/neo-tree.nvim',

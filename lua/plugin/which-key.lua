@@ -29,6 +29,32 @@ local function lsp_server_picker()
   ):find()
 end
 
+---@type table
+local diagnostics_opts = ivy_picker({
+  bufnr = 0,
+  sort_by = "severity",
+  attach_mappings = function(prompt_bufnr, map)
+    local function_handle = function(_)
+      local state = action_state.get_selected_entry()
+      local diagnostic_line = string.format("%s", state.text)
+      actions.close(prompt_bufnr)
+      vim.notify(diagnostic_line)
+    end
+    map("n", "<cr>", function_handle)
+    return true
+  end
+})
+
+---@type string
+local lazygit_floatTerm_command = "<cmd>FloatermNew --height=0.8 --width=0.8 --wintype=float --name=git --position=center --autoclose=2 lazygit<CR>"
+
+---@param filepath string
+local function open(filepath)
+  return function()
+    vim.cmd('e ' .. filepath)
+  end
+end
+
 
 ---@param aspect string
 ---@param opts table
@@ -97,10 +123,6 @@ wk.setup({
 })
 
 wk.add({
-  -- { "<leader>N", group = "Luasnip" },
-  -- { "<leader>NE", require("luasnip.loaders").edit_snippet_files, desc = "Edit Snippets" },
-  -- { "<leader>NO", "<cmd>e /Users/iMac/.config/BlackForest/Luasnip/<CR>", desc = "Open Snippet Directory" },
-  -- { "<leader>V", "<cmd>StartupTime<CR>", desc = "VimStartup Time" },
   { "<leader>Z", group = "Boop" },
   { "<leader>Zc", group = "Case" },
   { "<leader>Zcc", "<cmd>BoopCamelCase<CR>", desc = "Camel" },
@@ -119,34 +141,10 @@ wk.add({
   { "<leader>Zts", "<cmd>BoopToSHA256<CR>", desc = "SHA256" },
   { "<leader>Zz", "<cmd>Boop<CR>", desc = "Open" },
   { "<leader>a", group = "Align" },
-  {
-    "<leader>aL",
-    function()
-      require("utility").align("left", true)
-    end,
-    desc = "Align Gap Left",
-  },
-  {
-    "<leader>aR",
-    function()
-      require("utility").align("right", true)
-    end,
-    desc = "Align Gap Right",
-  },
-  {
-    "<leader>al",
-    function()
-      require("utility").align("left", false)
-    end,
-    desc = "Align Left",
-  },
-  {
-    "<leader>ar",
-    function()
-      require("utility").align("right", false)
-    end,
-    desc = "Align Right",
-  },
+  { "<leader>aL", require("inits.utility").align_func("left", true), desc = "Gap Left" },
+  { "<leader>aR", require("inits.utility").align_func("right", true), desc = "Gap Right" },
+  { "<leader>al", require("inits.utility").align_func("left", false), desc = "Left" },
+  { "<leader>ar", require("inits.utility").align_func("right", false), desc = "Right" },
   { "<leader>b", group = "Buffer" },
   { "<leader>bd", "<cmd>bnext | bd #<CR>", desc = "Delete" },
   { "<leader>bn", "<cmd>bnext<CR>", desc = "Next" },
@@ -165,29 +163,10 @@ wk.add({
   { "<leader>ea", telescope_builtin("autocommands", {}), desc = "Autocommands" },
   { "<leader>bl", telescope_builtin("buffers", {}), desc = "List Buffers" },
   { "<leader>ec", require("telescope.builtin").highlights, desc = "Highlight Groups" },
-  {
-    "<leader>dd",
-    function()
-      require("telescope.builtin").diagnostics(ivy_picker({
-        bufnr = 0,
-        sort_by = "severity",
-        attach_mappings = function(prompt_bufnr, map)
-          local function_handle = function(_)
-            local state = action_state.get_selected_entry()
-            local diagnostic_line = string.format("%s", state.text)
-            actions.close(prompt_bufnr)
-            vim.notify(diagnostic_line)
-          end
-          map("n", "<cr>", function_handle)
-          return true
-        end,
-      }))
-    end,
-    desc = "List Diagnostics",
-  },
-  { "<leader>r", require("telescope.builtin").live_grep, desc = "Live Grep" },
-  { "<leader>f", require("telescope.builtin").fd, desc = "Find Files" },
-  { "<leader>G", "<cmd>FloatermNew --height=0.8 --width=0.8 --wintype=float --name=git --position=center --autoclose=2 lazygit<CR>", desc="Lazy Git" },
+  { "<leader>dd", telescope_builtin("diagnostics", diagnostics_opts), desc = "List Diagnostics" },
+  { "<leader>r", telescope_builtin("live_grep", {}), desc = "Live Grep" },
+  { "<leader>f", telescope_builtin("fd", {}), desc = "Find Files" },
+  { "<leader>G", lazygit_floatTerm_command, desc="Lazy Git" },
   { "<leader>g", group = "Git" },
   { "<leader>gn", "<cmd>Neogit<CR>", desc = "Neogit" },
   { "<leader>gb", neogit_open("branch"), desc = "Branches" },
@@ -205,25 +184,17 @@ wk.add({
   { "<leader>ek", telescope_builtin("marks", {}), desc = "Marks" },
   { "<leader>el", group = "LSP" },
   { "<leader>em", telescope_builtin("man_pages", {}), desc = "Man Pages" },
-  -- { "<leader>f", "<cmd>Neotree focus<CR>", desc = "NeoTree Toggle" },
-  -- { "<leader>i", group = "Codeium" },
-  -- { "<leader>i<C-,>", "", desc = "Cycle Backward" },
-  -- { "<leader>i<C-;>", "", desc = "Cycle Forward" },
-  -- { "<leader>i<C-g>", "", desc = "Accept Completion" },
-  -- { "<leader>i<C-x>", "", desc = "Clear Completion" },
-  -- { "<leader>id", "<cmd>CodeiumDisable<CR>", desc = "Disable Codeium" },
-  -- { "<leader>ie", "<cmd>CodeiumEnable<CR>", desc = "Enable Codeium" },
   { "<leader>gc", group = "Comment" },
   { "<leader>l", group = "LSP" },
   { "<leader>li", "<cmd>LspInfo<CR>", desc = "Lsp Info" },
-  { "<leader>ll", "<cmd>e /Users/iMac/.local/state/nvim/lsp.log<CR>", desc = "Lsp Log" },
+  { "<leader>ll", open(vim.env.HOME .. "/.local/state/nvim/lsp.log"), desc = "Lsp Log" },
   { "<leader>lm", group = "Mason" },
-  { "<leader>lml", "<cmd>e /Users/iMac/.local/state/nvim/mason.log<CR>", desc = "Mason Log" },
+  { "<leader>lml", open(vim.env.HOME .. "/.local/state/nvim/mason.log"), desc = "Mason Log" },
   { "<leader>lmm", "<cmd>Mason<CR>", desc = "Mason" },
   { "<leader>lmu", "<cmd>MasonUpdate<CR>", desc = "Mason Update" },
   { "<leader>lp", "<cmd>LspStop<CR>", desc = "Stop Lsp" },
   { "<leader>lr", "<cmd>LspRestart<CR>", desc = "Restart Lsp" },
-  { "<leader>ls", lsp_server_picker, desc = "Start Lsp" }, 
+  { "<leader>ls", lsp_server_picker, desc = "Start Lsp" },
   { "<leader>ld", telescope_builtin("lsp_definitions", {}), desc = "Definitions" },
   { "<leader>li", telescope_builtin("lsp_implementations", {}), desc = "Implementations" },
   { "<leader>lf", telescope_builtin("lsp_references", {}), desc = "References" },
@@ -231,49 +202,40 @@ wk.add({
   { "<leader>lt", telescope_builtin("lsp_type_definitions", {}), desc = "Type Definitions" },
   { "<leader>n", "<cmd>Neotree toggle reveal right<CR>", desc = "NeoTree Toggle" },
   { "<leader>o", group = "Open" },
-  { "<leader>oa", "<cmd>e /Users/iMac/.config/alacritty/alacritty.toml<CR>", desc = "Alacritty" },
+  { "<leader>oa", open(vim.env.HOME .. "/.config/alacritty/alacritty.toml"), desc = "Alacritty" },
   {
       "<leader>oc",
-      telescope_builtin("find_files", ivy_picker({
-        cwd = vim.fs.joinpath(vim.env.HOME, ".config", "BlackForest"),
-        prompt_title = "BlackForest",
-      })),
+      telescope_builtin("find_files", {
+        cwd = vim.env.HOME .. "/.config/BlackForest",
+        prompt_title = "Black Forest",
+        hidden = true
+      }),
       desc = "BlackForest",
   },
+  { "<leader>og", open(vim.env.HOME .. "/.config/ghostty/config"), desc = "Ghostty" },
   {
     "<leader>of",
-    telescope_builtin("themes", ivy_picker({
-        cwd = vim.fs.joinpath(vim.env.HOME, ".config", "fish"),
-        prompt_title = "Fish Files",
-        hidden = true,
-      })),
+    telescope_builtin("find_files", {
+        cwd = vim.env.HOME .. "/.config/fish",
+        prompt_title = "Fish Shell Config",
+        hidden = true
+      }),
     desc = "Fish",
   },
   {
     "<leader>os",
-    telescope_builtin("themes", ivy_picker({
-        cwd = vim.fs.joinpath(vim.env.HOME, ".config", "fish"),
-        prompt_title = "Fish Files",
-        hidden = true,
-      })),
+    telescope_builtin("find_files", {
+        cwd = vim.env.HOME .. "/.scripts",
+        prompt_title = "Scripts",
+        hidden = false
+      }),
     desc = "Scripts",
-  },
-  { "<leader>ot", "<cmd>e /Users/iMac/.tmux.conf<CR>", desc = "Tmux" },
-  {
-    "<leader>oz",
-    telescope_builtin("find_files", ivy_picker({
-        cwd = vim.env.HOME .. "/.config/zsh/",
-        prompt_title = "Zsh Files",
-        hidden = true
-      })),
-    desc = "Zsh",
   },
   { "<leader>q", group = "Force Quit?" },
   { "<leader>qy", "<cmd>q!<CR>", desc = "yes" },
-  { "<leader>s", group = "Surround" },
-  { "<leader>sa", "<cmd>SurroundAdd<CR>", desc = "Add" },
-  { "<leader>sd", "<cmd>SurroundDelete<CR>", desc = "Delete" },
+  -- { "<leader>s", group = "Surround" },
+  -- { "<leader>sa", "<cmd>SurroundAdd<CR>", desc = "Add" },
+  -- { "<leader>sd", "<cmd>SurroundDelete<CR>", desc = "Delete" },
   { "<leader>u", "<cmd>UndotreeToggle<CR>", desc="Undotree" },
-  { "<leader>w", "<cmd>w!<CR>", desc = "Force Write" },
-  { "<leader>z", "<cmd>Zoxide<CR>", desc = "Zoxide" },
+  { "<leader>w", "<cmd>w!<CR>", desc = "Force Write" }
 })

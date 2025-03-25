@@ -18,10 +18,11 @@ local _repeat_direction = function(direction, segment, spacing, delimiter, gap, 
 	return spacing .. segment .. gap .. delimiter .. gap
 end
 
+---@class Utility
 Utility = {}
 
--- @params direction "left"|"right"
--- @params gap       boolean|nil
+---@params direction "left"|"right"
+---@params gap       boolean|nil
 Utility.align = function(direction, gap)
 	local left_position   = api.nvim_buf_get_mark(0, "<")
 	local right_position  = api.nvim_buf_get_mark(0, ">")
@@ -66,5 +67,12 @@ Utility.align = function(direction, gap)
 	api.nvim_buf_set_lines(0, left_position[1] - 1, right_position[1], true, strings)
 end
 
+---@params direction "left"|"right"
+---@params gap       boolean|nil
+Utility.align_func = function(direction, opts)
+  return function()
+    Utility.align(direction, opts)
+  end
+end
+
 return Utility
--- luq require('plenary.popup').create({...}, { title = "Align Debug", minwidth = 100, minheight = 30})
